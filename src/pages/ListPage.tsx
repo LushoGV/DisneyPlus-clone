@@ -17,7 +17,7 @@ const ListPage = () => {
       <header className="p-4">
       <h1 className="font-semibold text-lg lg:hidden">Downloads</h1>
       </header>
-      <section className="w-full flex justify-center px-4">
+      <section className="w-full flex justify-center px-4 min-h-[80vh] lg:min-h-0">
         <div className="text-center mt-20 xl:mt-28 m-auto mb-2 flex flex-col items-center">
         <div className="w-[120px] h-[120px] border-4 border-[#4e515e] flex items-center rounded-full lg:hidden">
         <MdDownload className="text-[#4e515e] text-7xl m-auto" />
