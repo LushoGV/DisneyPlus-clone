@@ -1,0 +1,50 @@
+@keyframes opacity-animation {
+    0%{
+        opacity: 0;
+    }
+    
+    30% {
+        opacity: 0;
+    }
+
+    55%{
+        opacity: 1;
+    }
+}
+
+.profile-active{
+    position: absolute;
+    visibility: hidden;
+    background: #131313;
+    width: 240px;
+    right: 0;
+    top: -150px;
+    padding: 0 15px;
+    border: 1.5px solid rgba(151, 151, 151, 0.397);
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.profile:hover .profile-active{
+    visibility: visible;
+    transition-duration: 80ms;
+    transform: translateY(120px);
+}
+
+.profile:hover .profile-active header{
+    animation: opacity-animation 1s;
+}
+
+.animation-opacity{
+    animation: opacity-animation 1.5s;
+}
+
+.profile:hover .title{
+    display: block;
+}
+
+.image-profile:hover .border-profile-image{
+    border: 4px solid rgba(255, 255, 255, 0.747);
+    
+}
+

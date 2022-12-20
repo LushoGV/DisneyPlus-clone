@@ -1,0 +1,7 @@
+.card-trailer:hover .border-card{
+    border: 3px solid rgba(255, 255, 255, 0.692);
+}
+
+.card-trailer:hover .card-icon{
+    visibility: visible;
+}
