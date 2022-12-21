@@ -38,31 +38,31 @@ const Navbar = () => {
             />
           </Link>
         </li>
-        <li>
+        <li className="link">
           <Link to={"/"} className="py-4 px-[18px] flex items-center leading-[1.07px] text-[13px] tracking-[1.42px] prueba">
             <AiFillHome className="mr-3 text-base" />
             <span>home</span>
           </Link>
         </li>
-        <li>
+        <li className="link">
           <Link to={"/search"} className="py-4 px-[18px] flex items-center leading-[1.07px] text-[13px] tracking-[1.42px]">
             <BiSearch className="mr-3 text-lg" />
             <span>search</span>
           </Link>
         </li>
-        <li>
+        <li className="link">
           <Link to={"/list"} className="py-4 px-[18px] flex items-center leading-[1.07px] text-[13px] tracking-[1.42px]">
             <MdAdd className="mr-[11px] text-xl" />
             <span>watchlist</span>
           </Link>
         </li>
-        <li>
+        <li className="link">
           <Link to={"/originals"} className="py-4 px-[18px] flex items-center leading-[1.07px] text-[13px] tracking-[1.42px]">
             <AiFillStar className="mr-3 text-base" />
             <span>originals</span>
           </Link>
         </li>
-        <li>
+        <li className="link">
           <Link to={"/movies"} className="py-4 px-[18px] flex items-center leading-[1.07px] text-[13px] tracking-[1.42px]">
           <img
               src="../movie-icon.svg"
@@ -71,7 +71,7 @@ const Navbar = () => {
             <span>movies</span>
           </Link>
         </li>
-        <li>
+        <li className="link">
           <Link to={"/series"} className="py-4 px-[18px] flex items-center leading-[1.07px] text-[13px] tracking-[1.42px]">
             <img
               src="../series-icon.svg"

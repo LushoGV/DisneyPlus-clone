@@ -1,25 +1,30 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Navigation, Pagination } from "swiper";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "swiper/css";
 import "swiper/css/pagination";
 import MovieCard from "./MovieCard";
-
-type movie = {
-  id: number;
-  image: string;
-  link?: string;
-};
+import { iMovieCard } from "../interfaces";
 
 interface Props {
   title: string;
-  movies: movie[];
+  movies: iMovieCard[];
   id: number;
 }
 
 const MovieSlider = ({ title, movies, id }: Props) => {
   const [sliderCount, setSliderCount] = useState<number>(0);
+  const [Movies, setMovies] = useState<iMovieCard[]>();
+
+  useEffect(() => {
+    setMovies(
+      movies.filter(
+        (element) =>
+          element.backdrop_path !== null && element.poster_path !== null
+      )
+    );
+  }, [movies]);
 
   return (
     <section className={`swiper${id}`}>
@@ -63,11 +68,17 @@ const MovieSlider = ({ title, movies, id }: Props) => {
             },
           }}
         >
-          {movies &&
-            movies.map((element, index) => (
-              <div key={element.id}>
-                <SwiperSlide>
-                  <MovieCard type="slider" content={element} />
+          {Movies &&
+            Movies.map((element, index) => (
+              <div key={index}>
+                <SwiperSlide key={element.id}>
+                  <MovieCard
+                    type="slider"
+                    imageMobile={element.poster_path}
+                    imageLG={element.backdrop_path}
+                    id={element.id}
+                    typeLink = { element.first_air_date || element.seasons ? "tv" : "movie"}              
+                  />
                 </SwiperSlide>
               </div>
             ))}

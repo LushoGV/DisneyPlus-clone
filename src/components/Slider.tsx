@@ -4,8 +4,19 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import "../styles/Slider.css";
 import "swiper/css";
 import MovieCard from "./MovieCard";
+import { iMovieCard } from "../interfaces";
 
-const Slider = () => {
+interface Props {
+  content: {
+    id: number;
+    backdrop_path: string;
+    logo: string;
+    imageMobile: string
+    type: string
+  }[];
+}
+
+const Slider = ({ content }: Props) => {
   return (
     <div className="banner-slider relative lg:px-20 mt-4 lg:m-0">
       <div className="swiperContainer ">
@@ -13,7 +24,7 @@ const Slider = () => {
           modules={[Pagination, Autoplay, Navigation]}
           loop
           autoplay={{
-            delay: 3000,
+            delay: 130000000,
             disableOnInteraction: false,
           }}
           pagination={{
@@ -26,30 +37,21 @@ const Slider = () => {
           }}
           slidesPerView={1}
         >
-          <SwiperSlide>
-            <MovieCard type="bigSlide"/>
-          </SwiperSlide>
-          <SwiperSlide>
-            <MovieCard type="bigSlide"/>
-          </SwiperSlide>
-          <SwiperSlide>
-            <MovieCard type="bigSlide"/>
-          </SwiperSlide>
-          <SwiperSlide>
-            <MovieCard type="bigSlide"/>
-          </SwiperSlide>
-          <SwiperSlide>
-            <MovieCard type="bigSlide"/>
-          </SwiperSlide>
-          <SwiperSlide>
-            <MovieCard type="bigSlide"/>
-          </SwiperSlide>
-          <SwiperSlide>
-            <MovieCard type="bigSlide"/>
-          </SwiperSlide>
-          <SwiperSlide>
-            <MovieCard type="bigSlide"/>
-          </SwiperSlide>
+          {content &&
+            content.map((element, index) => (
+              <div key={index}>
+                <SwiperSlide key={index}>
+                  <MovieCard
+                    type="bigSlide"
+                    id={element.id}
+                    imageLG={element.backdrop_path}
+                    logo={element.logo}
+                    imageMobile={element.imageMobile}
+                    typeLink={element.type}
+                  />
+                </SwiperSlide>
+              </div>
+            ))}
         </Swiper>
       </div>
       <div className="pagination h-12 hidden lg:flex justify-end items-end absolute z-20" />

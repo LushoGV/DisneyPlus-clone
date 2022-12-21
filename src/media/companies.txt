@@ -1,0 +1,5 @@
+disney = 2
+pixar = 3
+starwars = film(1), animations(108270), kids(71126), arts(5244)
+marvel = studios(420), aniamtionS(13252), productions(2301)
+nationalgeo = 7521

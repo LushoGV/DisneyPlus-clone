@@ -1,17 +1,9 @@
 import { Outlet } from "react-router-dom";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import axios from "axios";
 import BottomBar from "../components/BottomBar";
 
 const Layout = () => {
-  const getData = async () => {
-    const { data } = await axios.get(
-      "https://api.themoviedb.org/3/movie/774752?api_key=779b195bed29319f74d486e3c7b2af1e"
-    );
-    console.log(data);
-  };
-
   return (
     <>
       <Navbar />

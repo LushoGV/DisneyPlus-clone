@@ -48,3 +48,48 @@
     
 }
 
+/*----------------------------------------Navbar----------------------------------------*/
+
+.link a span{
+    position: relative;
+}
+
+.link a span::after{
+    content: "";
+    display:block;
+    position: absolute;
+    height: 2px;
+    top: 13px;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+
+}
+
+.link:hover span::after{
+    animation: showunderline 300ms forwards ease-out;
+}
+
+@keyframes showunderline {
+    0%{
+        background: #fff;
+        width: 0%;
+        opacity: 0%; 
+    }
+    
+    20%{
+        background: #fff;
+        width: 0%;
+        opacity: 0%;
+    }
+
+    80%{
+        background: #fff;
+        width: 100%;
+        opacity: 60%;
+    }
+    100%{
+        background: #fff;
+        width: 100%;
+        opacity: 100%;
+    }
+}

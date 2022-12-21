@@ -44,23 +44,30 @@ const router = createBrowserRouter([
       {
         path: "/brand/:company",
         element: <CompaniesPage />,
-      },{
-        path: "/movie/:id",
-        element: <MoviePage/>
-      }
+      },
+      {
+        path: "/:type/:id",
+        element: <MoviePage />,
+      },
     ],
   },
   {
     path: "/profile",
-    element: <UserProvider><ProfileLayout /></UserProvider>,
-    children: [ {
-      path: "/profile",
-      element: <Profile />,
-    },
-    {
-      path: "/profile/select-avatar",
-      element: <Avatars />,
-    },]
+    element: (
+      <UserProvider>
+        <ProfileLayout />
+      </UserProvider>
+    ),
+    children: [
+      {
+        path: "/profile",
+        element: <Profile />,
+      },
+      {
+        path: "/profile/select-avatar",
+        element: <Avatars />,
+      },
+    ],
   },
 ] as RouteObject[]);
 

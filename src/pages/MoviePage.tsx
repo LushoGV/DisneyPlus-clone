@@ -1,26 +1,61 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaPlay } from "react-icons/fa";
 import { RiAddLine, RiFilmFill } from "react-icons/ri";
 import { HiUserGroup } from "react-icons/hi";
 import { MdDownload } from "react-icons/md";
 import MovieSlider from "../components/MovieSlider";
-import movies from "../api/movies";
 import MovieCard from "../components/MovieCard";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import { iMoviePage, Cast } from "../interfaces";
 
 const MoviePage = () => {
   const [sectionMode, setSectionMode] = useState<number>(1);
+  const [data, setData] = useState<iMoviePage>();
+  const [director, setDirector] = useState<Cast[]>();
+  const [Recommended, setRecommended] = useState();
+  const { id, type } = useParams();
+
+  const getData = async () => {
+    const res = await axios.get(`
+      https://api.themoviedb.org/3/${type}/${id}?api_key=779b195bed29319f74d486e3c7b2af1e&language=en-US&video=true&append_to_response=videos,credits
+      `);
+
+    const resRecommended = await axios.get(
+      `https://api.themoviedb.org/3/${type}/${id}/videos?api_key=779b195bed29319f74d486e3c7b2af1e&language=en-US`
+    );
+
+    setData(res.data);
+    setDirector(
+      type === "movie"
+        ? res.data.credits.crew.filter((element: any) => element.job === "Director")
+        : res.data.credits.crew.filter((element: any) => element.job === "Producer")
+    );
+    setRecommended(resRecommended.data);
+  };
+
+  const toHoursAndMinutes = (totalMinutes: number) => {
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+
+    if (minutes === 0) return `${hours}h`;
+
+    return `${hours}h ${minutes}m`;
+  };
+
+  useEffect(() => {
+    getData();
+  }, [id]);
 
   return (
     <div className="min-h-screen w-full lg:relative pb-12">
       <div className="w-full h-full absolute top-0 left-0 ">
         <div
-          className={`top-0 left-0 w-full bg-[#1a1d29] h-full lg:fixed z-[0] opacity-[0.2] transition-all duration-300 transform`}
+          className={`top-0 left-0 w-full bg-[#1a1d29] h-full lg:fixed z-[0] lg:opacity-[0.2] transition-all duration-300 transform`}
         >
           <div className={`relative`}>
             <img
-              src={
-                "https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/358035EB368552E0CD2C9067E5EBE4337377BB0CE60DAF754C1DCE6EC5B95990/scale?width=1440&aspectRatio=1.78&format=jpeg"
-              }
+              src={`https://image.tmdb.org/t/p/original/${data?.backdrop_path}`}
               alt=""
               className="w-full"
             />
@@ -29,17 +64,46 @@ const MoviePage = () => {
         </div>
       </div>
       <section className="z-10 top-0 relative px-4 lg:px-20 pt-56 lg:pt-20 w-full">
-        <img
+        {/* <img
           src="https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/821927250800EA793236B8C55F7036E87F4F2AE9F890BBBB98EAB25952AF7B1F/scale?width=1440&aspectRatio=1.78&format=png"
           alt=""
           className="max-w-[341px] min-w-[100px] w-[35vw] m-auto lg:m-0"
-        />
+        /> */}
+        <h1 className="text-5xl text-center lg:text-left">
+          {data?.title || data?.original_name}
+        </h1>
         <span className="w-full flex justify-center lg:justify-start mt-4 lg:mt-7 text-[#888888] lg:text-white text-sm h-5 lg:h-6">
           <img src="../add.png" alt="" className="mr-2" />
           <img src="../cc.png" alt="" />
         </span>
         <span className="w-full flex justify-center lg:justify-start mt-1 lg:mt-2 text-[#888888] lg:text-white text-sm">
-          1990 • 1h 44m • Family, Comedy
+          <span className="min-w-[32px]">
+            {data?.release_date?.toString().substring(0, 4) ||
+              `${data?.first_air_date
+                ?.toString()
+                .substring(0, 4)} - ${data?.last_air_date
+                ?.toString()
+                .substring(0, 4)}`}
+          </span>
+          <span className="mx-1">•</span>
+          {data && <span className="min-w-[47px]">
+            {type === "movie"
+              ? toHoursAndMinutes(data?.runtime)
+              : `${data?.seasons.length} ${
+                  data?.seasons.length > 1 ? "seasons" : "season"
+                }`}
+          </span>}
+          <span className="mx-1">•</span>
+          <ul className="flex flex-wrap max-w-[230px] lg:max-w-none max-h-[20px] mb-3">
+            {data?.genres.map((element, index) => {
+              return (
+                <li className={`${index === 0 && "ml-1"} mr-1`} key={index}>
+                  {element.name}
+                  {index < data?.genres.length - 1 && ", "}
+                </li>
+              );
+            })}
+          </ul>
         </span>
         <div className="max-w-[874px]">
           <div className="flex items-center justify-center lg:justify-start flex-wrap lg:flex-row mt-4 lg:mt-6">
@@ -68,12 +132,7 @@ const MoviePage = () => {
               <p className="text-[11px] mt-1 text-[#888888]">Download</p>
             </button>
           </div>
-          <p className="py-6 lg:py-4 text-lg lg:text-xl">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi
-            autem dolore possimus, temporibus adipisci mollitia provident
-            nostrum, rem cumque itaque illum maiores reiciendis quaerat quam
-            nemo. Voluptatem, quidem! Error, odio.
-          </p>
+          <p className="py-6 lg:py-4 text-lg lg:text-xl">{data?.overview}</p>
         </div>
 
         <section className="lg:pb-20 lg:mt-[56px]">
@@ -111,50 +170,58 @@ const MoviePage = () => {
             )} */}
             {sectionMode === 2 && (
               <div className="grid lg:grid-cols-5 lg:pb-0">
-                <MovieCard type="trailer" />
+                {data && (
+                  <MovieCard
+                    type="trailer"
+                    linkTrailer={`https://www.youtube.com/watch?v=${data?.videos.results[0].key}`}
+                    imageLG={data?.backdrop_path}
+                    title={data?.title || data?.original_name}
+                  />
+                )}
               </div>
             )}
             {sectionMode === 3 && (
               <div className="grid grid-cols-1 lg:grid-cols-2 animation-opacity transition-all duration-[10ms]">
                 <div className="lg:pr-5">
                   <h3 className="pb-5 lg:pb-6 lg:text-xl font-semibold">
-                    Diary of a Wimpy Kid 2: Rodrick Rules
+                    {data?.title || data?.original_name}
                   </h3>
-                  <p className="lg:text-xl">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Totam, error quis omnis debitis tenetur expedita magnam
-                    minus tempora commodi minima eos assumenda ducimus harum
-                    fugiat maiores ipsum dicta nulla consectetur! Lorem ipsum,
-                    dolor sit amet consectetur adipisicing elit. Consequatur
-                    doloremque, illo laudantium ex quia praesentium illum
-                    consequuntur fuga voluptate exercitationem fugiat repellat
-                    inventore? Doloremque illum impedit exercitationem amet
-                    porro corrupti. Lorem ipsum dolor, sit amet consectetur
-                    adipisicing elit. Blanditiis, dicta aperiam eaque
-                    accusantium unde doloremque repellendus dolorum
-                    necessitatibus architecto, vitae illum maiores eum velit,
-                    repudiandae magnam iure sed. Repudiandae, commodi. Lorem
-                    ipsum dolor sit amet consectetur, adipisicing elit.
-                    Consectetur expedita quas nostrum quibusdam omnis itaque
-                    quasi nobis aspernatur! Eveniet deserunt quibusdam eos esse
-                    dolore quod sunt natus aliquid consequuntur impedit.
-                  </p>
+                  <p className="lg:text-xl">{data?.overview}</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 pt-2 w-full mt-3 lg:mt-[44px] lg:pl-3">
-                  <ul className="text-base lg:text-sm">
+                  <ul className="text-base lg:text-sm lg:pr-2">
                     <li className="mb-3 flex flex-col">
                       <span className="text-[#888888]">Duration:</span>
-                      <span className="py-[1px]">1h 16m</span>
+                      {data && <span className="py-[1px]">
+                        { type === "movie"
+                          ? toHoursAndMinutes(data?.runtime)
+                          : `${data?.seasons.length} ${
+                              data?.seasons.length > 1 ? "seasons" : "season"
+                            }`}
+                      </span>}
                     </li>
                     <li className="mb-3 flex flex-col">
                       <span className="text-[#888888]">Release Date:</span>
-                      <span className="py-[1px]">2022</span>
+                      <span className="py-[1px]">
+                        {data?.release_date?.toString().substring(0, 4) ||
+                          `${data?.first_air_date
+                            ?.toString()
+                            .substring(0, 4)} - ${data?.last_air_date
+                            ?.toString()
+                            .substring(0, 4)}`}
+                      </span>
                     </li>
                     <li className="mb-3 flex flex-col">
                       <span className="text-[#888888]">Genre:</span>
-                      <span className="py-[1px]">
-                        Family, Comedy, Animation
-                      </span>
+                      <div className="py-[1px]">
+                        {data?.genres.map((element, index) => {
+                          return (
+                            <span key={index}>
+                              {index > 0 && ", "} {element.name}
+                            </span>
+                          );
+                        })}
+                      </div>
                     </li>
                     <li className="mb-3 flex flex-col items-start">
                       <span className="text-[#888888]">Rating:</span>
@@ -166,13 +233,22 @@ const MoviePage = () => {
                   <ul className="text-base lg:text-sm">
                     <li className="mb-3 flex flex-col">
                       <p className="text-[#888888]">Director:</p>
-                      <p className="text-sm py-[1px]">Luke Cormican</p>
+                      <ul className="text-sm py-[1px]">
+                        {director &&
+                          director.map((element, index) => (
+                            <li key={index}>{element.name}</li>
+                          ))}
+                      </ul>
                     </li>
                     <li className="mb-3">
                       <p className="text-[#888888]">Starring:</p>
-                      <p className="py-[1px]">Brady Noon</p>
-                      <p className="py-[1px]">Ethan William Childress</p>
-                      <p className="py-[1px]">Edward Asner</p>
+                      {data?.credits.cast.slice(0, 5).map((element, index) => {
+                        return (
+                          <p className="py-[1px]" key={index}>
+                            {element.name}
+                          </p>
+                        );
+                      })}
                     </li>
                   </ul>
                 </div>
