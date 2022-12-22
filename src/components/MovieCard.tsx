@@ -40,15 +40,20 @@ const MovieCard = ({ type, title, imageMobile, imageLG, id, linkTrailer, logo, t
 
   if (type === "grid")
     return (
-      <Link to="/movie/1">
+      <Link to={`/${typeLink}/${id}`} >
         <div className=".load-image relative cursor-pointer flex rounded-md hover:scale-105 transition duration-[400ms] shadow-disney transform">
           <div className="absolute z-10 top-0 left-0 w-full h-full rounded-md hover:border-[3px] border-white border-opacity-10 hover:border-opacity-80"></div>
           <div className="bg-gradient-to-tl from-[#1e1f2a] to-[#30323e] rounded-md w-full">
             <img
-              className="rounded-md w-full object-cover animation-opacity"
+              className="rounded-md w-full object-cover animation-opacity block lg:hidden"
               src={
-                "https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/6044C0A16A54D237390BA98F9941E006B1CB1F53F002451ACC3CDD1BDCB78235/scale?width=400&aspectRatio=1.78&format=jpeg"
+                imageMobile && `https://image.tmdb.org/t/p/w500/${imageMobile}`
               }
+              alt=""
+            />
+             <img
+              className="rounded-md w-full object-cover animation-opacity lg:block hidden"
+              src={imageLG && `https://image.tmdb.org/t/p/original/${imageLG}`}
               alt=""
             />
           </div>

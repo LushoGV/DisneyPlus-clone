@@ -3,17 +3,18 @@ import { FaPlay } from "react-icons/fa";
 import { RiAddLine, RiFilmFill } from "react-icons/ri";
 import { HiUserGroup } from "react-icons/hi";
 import { MdDownload } from "react-icons/md";
+import {BsCheck2} from 'react-icons/bs'
 import MovieSlider from "../components/MovieSlider";
 import MovieCard from "../components/MovieCard";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { iMoviePage, Cast } from "../interfaces";
+import { iMoviePage, Cast, iMovieCard } from "../interfaces";
 
 const MoviePage = () => {
   const [sectionMode, setSectionMode] = useState<number>(1);
   const [data, setData] = useState<iMoviePage>();
   const [director, setDirector] = useState<Cast[]>();
-  const [Recommended, setRecommended] = useState();
+  const [recommended, setRecommended] = useState<iMovieCard>();
   const { id, type } = useParams();
 
   const getData = async () => {
@@ -22,7 +23,7 @@ const MoviePage = () => {
       `);
 
     const resRecommended = await axios.get(
-      `https://api.themoviedb.org/3/${type}/${id}/videos?api_key=779b195bed29319f74d486e3c7b2af1e&language=en-US`
+      `https://api.themoviedb.org/3/discover/${type}?api_key=779b195bed29319f74d486e3c7b2af1e&language=en-US&language=en-US&sort_by=popularity.desc&with_companies=1|2|3|420`
     );
 
     setData(res.data);
@@ -31,7 +32,7 @@ const MoviePage = () => {
         ? res.data.credits.crew.filter((element: any) => element.job === "Director")
         : res.data.credits.crew.filter((element: any) => element.job === "Producer")
     );
-    setRecommended(resRecommended.data);
+    setRecommended(resRecommended.data.results);
   };
 
   const toHoursAndMinutes = (totalMinutes: number) => {
@@ -48,7 +49,7 @@ const MoviePage = () => {
   }, [id]);
 
   return (
-    <div className="min-h-screen w-full lg:relative pb-12">
+    <div className="min-h-screen lg:min-h-0 w-full lg:relative pb-12">
       <div className="w-full h-full absolute top-0 left-0 ">
         <div
           className={`top-0 left-0 w-full bg-[#1a1d29] h-full lg:fixed z-[0] lg:opacity-[0.2] transition-all duration-300 transform`}
@@ -95,11 +96,11 @@ const MoviePage = () => {
           </span>}
           <span className="mx-1">•</span>
           <ul className="flex flex-wrap max-w-[230px] lg:max-w-none max-h-[20px] mb-3">
-            {data?.genres.map((element, index) => {
+            {data?.genres && data?.genres.map((element, index) => {
               return (
                 <li className={`${index === 0 && "ml-1"} mr-1`} key={index}>
                   {element.name}
-                  {index < data?.genres.length - 1 && ", "}
+                  { data?.genres && index < data?.genres.length - 1 && ", "}
                 </li>
               );
             })}
@@ -115,7 +116,8 @@ const MoviePage = () => {
               trailer
             </button>
             <button className="flex flex-col items-center lg:w-11 lg:h-11 lg:border-[2px] lg:border-white lg:bg-black lg:text-white lg:rounded-full hover:bg-white hover:text-black transition-all duration-[400ms] transform">
-              <RiAddLine className="text-xl m-auto hidden lg:block" />
+              {/* <RiAddLine className="text-xl m-auto hidden lg:block" /> */}
+              <BsCheck2 className="text-[1.6rem] my-auto text-[#005bd2]" />
             </button>
             <button className="flex flex-col items-center mx-3 lg:block lg:w-11 lg:h-11 lg:border-[2px] lg:border-white lg:bg-black lg:text-white lg:rounded-full lg:mx-4 hover:bg-white hover:text-black transition-all duration-[400ms] transform">
               <HiUserGroup className="text-[1.6rem] lg:text-3xl rounded-full lg:m-auto lg:pt-1" />
@@ -128,7 +130,8 @@ const MoviePage = () => {
               <p className="text-[11px] mt-1 text-[#888888]">Trailer</p>
             </button>
             <button className="flex flex-col items-center lg:hidden mx-3 lg:w-11 lg:h-11 lg:border-[2px] lg:border-white lg:bg-black lg:text-white lg:rounded-full">
-              <MdDownload className="text-[1.6rem]" />
+              {/* <MdDownload className="text-[1.6rem]" /> */}
+              <BsCheck2 className="text-[1.6rem]" />
               <p className="text-[11px] mt-1 text-[#888888]">Download</p>
             </button>
           </div>
@@ -164,10 +167,10 @@ const MoviePage = () => {
               </li>
             </ul>
           </header>
-          <section className="">
-            {/* {sectionMode === 1 && (
-              <MovieSlider title="" movies={movies} id={1} />
-            )} */}
+          <section>
+            {sectionMode === 1 && recommended && (
+              <MovieSlider title="" movies={recommended} id={1} />
+            )}
             {sectionMode === 2 && (
               <div className="grid lg:grid-cols-5 lg:pb-0">
                 {data && (
@@ -214,7 +217,7 @@ const MoviePage = () => {
                     <li className="mb-3 flex flex-col">
                       <span className="text-[#888888]">Genre:</span>
                       <div className="py-[1px]">
-                        {data?.genres.map((element, index) => {
+                        {data?.genres && data?.genres.map((element, index) => {
                           return (
                             <span key={index}>
                               {index > 0 && ", "} {element.name}

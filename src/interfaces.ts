@@ -27,7 +27,7 @@ export interface iMoviePage {
   backdrop_path: string;
   belongs_to_collection: BelongsToCollection;
   budget: number;
-  genres: Genre[];
+  genres?: Genre[];
   homepage: string;
   id: number;
   imdb_id: string;
@@ -66,7 +66,35 @@ export interface iMoviePage {
   original_name: string;
   seasons: Season[];
   type: string;
+  genre_ids: number[]
 }
+
+export interface ILocalMovies {
+  adult?:            boolean;
+  backdrop_path:     string;
+  genre_ids:         number[];
+  id:                number;
+  original_language: string;
+  original_title?:   string;
+  overview:          string;
+  popularity:        number;
+  poster_path:       string;
+  release_date?:     string;
+  title?:            string;
+  video?:            boolean;
+  vote_average:      number;
+  vote_count:        number;
+  first_air_date?:   string;
+  name?:             string;
+  origin_country?:   string[];
+  original_name?:    string;
+  seasons?: Season[];
+}
+
+export enum OriginCountry {
+  Us = "US",
+}
+
 
 export interface Credits {
   cast: Cast[];

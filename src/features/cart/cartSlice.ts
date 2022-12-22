@@ -4,14 +4,17 @@ export const cartSlice = createSlice({
     name: 'cart',
     initialState: [],
     reducers: {
-        getMovies: (state) => {
+        getCart: (state) => {
             return state;
         },
-        addMovie: (state, actions) => {
-            
-        }
+        addToCart: (state, actions) => {
+            state: [...state, actions.payload]
+        },
+        removeToCart: (state, actions) => {
+            state: state.filter(element => element !== actions.payload)
+        },
     }
 })
 
-export const {getMovies,addMovie} = cartSlice.actions
+export const {getCart,addToCart,removeToCart} = cartSlice.actions
 export default cartSlice.reducer

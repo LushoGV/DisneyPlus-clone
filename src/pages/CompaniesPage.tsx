@@ -90,7 +90,7 @@ const CompaniesPage = () => {
 
   return (
     <>
-      <div className="min-h-screen w-full relative">
+      <div className="min-h-screen lg:min-h-0 w-full relative">
         <div className="w-full h-full absolute top-0 left-0 ">
           <div
             className={`top-0 left-0 w-full bg-[#1a1d29] h-full fixed z-[0]`}
@@ -114,7 +114,7 @@ const CompaniesPage = () => {
         </div>
         <div className="px-4 lg:px-16 z-20 relative flex flex-col ">
           <div className="h-[170px] sm:h-[200px] md:h-[250px] lg:h-[300px] 2xl:h-[500px] flex md:mb-6"></div>
-          <section>
+          <section className="mb-14">
             {data &&
               data.map((element, index) => {
                 return (
