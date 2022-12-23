@@ -61,7 +61,7 @@ const HomePage = () => {
         </Link>
       </nav>
       <Slider content={bigSliderData}/>
-      <section className="px-4 lg:px-20 mt-6 lg:mt-3">
+      <section className="px-4 lg:px-20 mt-6 lg:mt-3 pb-20">
         <ul className="w-full flex items-stretch">
           {sections.map((element, index) => {
             return (

@@ -78,7 +78,7 @@ const MovieCard = ({ type, title, imageMobile, imageLG, id, linkTrailer, logo, t
               alt=""
             />
           </div>
-          <img src={logo} alt="" className="logo-slider absolute lg:h-[300px] lg:left-16 lg:top-16 lg:object-cover hidden lg:block"/>
+          <img src={logo} alt="" className="logo-slider absolute lg:h-[200px] lg:left-16 lg:object-cover hidden lg:block"/>
         </div>
       </Link>
     );

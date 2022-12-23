@@ -5,22 +5,22 @@ import { useState, useEffect } from "react";
 import "swiper/css";
 import "swiper/css/pagination";
 import MovieCard from "./MovieCard";
-import { iMovieCard } from "../interfaces";
+import { ILocalMovies } from "../interfaces";
 
 interface Props {
   title: string;
-  movies: iMovieCard[];
+  movies: ILocalMovies[];
   id: number;
 }
 
 const MovieSlider = ({ title, movies, id }: Props) => {
   const [sliderCount, setSliderCount] = useState<number>(0);
-  const [Movies, setMovies] = useState<iMovieCard[]>();
+  const [content, setContent] = useState<ILocalMovies[]>();
 
   useEffect(() => {
-    setMovies(
+    setContent(
       movies.filter(
-        (element) =>
+        (element:any) =>
           element.backdrop_path !== null && element.poster_path !== null
       )
     );
@@ -68,8 +68,8 @@ const MovieSlider = ({ title, movies, id }: Props) => {
             },
           }}
         >
-          {Movies &&
-            Movies.map((element, index) => (
+          {content &&
+            content.map((element, index) => (
               <div key={index}>
                 <SwiperSlide key={element.id}>
                   <MovieCard
