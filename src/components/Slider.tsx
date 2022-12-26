@@ -24,7 +24,7 @@ const Slider = ({ content }: Props) => {
           modules={[Pagination, Autoplay, Navigation]}
           loop
           autoplay={{
-            delay: 130000000,
+            delay: 3000,
             disableOnInteraction: false,
           }}
           pagination={{

@@ -85,9 +85,8 @@ const MovieCard = ({ type, title, imageMobile, imageLG, id, linkTrailer, logo, t
 
   if (type === "trailer")
     return (
-      <Link
-        to="/movie/1"
-        className="md:w-[293px] hover:scale-105 transition duration-[400ms] transform card-trailer"
+      <div
+        className="md:w-[293px] hover:scale-105 transition duration-[400ms] transform card-trailer cursor-pointer"
       >
         <div className="relative w-auto md:h-auto cursor-pointer lg:w-full xl:w-[95%] flex rounded-md shadow-disney">
           <div className="border-card absolute z-10 top-0 left-0 w-full h-full rounded-md border-[3px] border-transparent"></div>
@@ -107,7 +106,7 @@ const MovieCard = ({ type, title, imageMobile, imageLG, id, linkTrailer, logo, t
           {title}
         </h3>
         <span className="py-2 pl-2 text-xs">View a promo of this release.</span>
-      </Link>
+      </div>
     );
 
   return <h1>a</h1>;

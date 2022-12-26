@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { BsPencilFill } from "react-icons/bs";
-import { useUserContext } from "../context/userContext";
+import { useUserContext } from "../../context/userContext";
 
 const Profile = () => {
   const { newUserData, setNewUserData, error, setError } = useUserContext();

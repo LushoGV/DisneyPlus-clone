@@ -4,5 +4,7 @@ export const toHoursAndMinutes = (totalMinutes: number) => {
 
     if (minutes === 0) return `${hours}h`;
 
+    if (hours === 0) return `${minutes}m`;
+
     return `${hours}h ${minutes}m`;
 };

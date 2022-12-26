@@ -8,33 +8,36 @@ interface Props {
   data: iMoviePage;
   recommended: ILocalMovies[];
   type: string;
+  openTrailerPlayer: () => void;
 }
 
-const Tabs = ({ data, recommended, type }: Props) => {
+const Tabs = ({ data, recommended, type, openTrailerPlayer }: Props) => {
   const [sectionMode, setSectionMode] = useState<number>(1);
 
   useEffect(() => {}, [data]);
 
   return (
-    <section className="lg:pb-20 lg:mt-[56px]">
+    <section className="lg:mt-[56px]">
       <header>
         <ul className="uppercase flex justify-between lg:justify-start mb-4 lg:mb-3 border-b-[2px] border-[#f9f9f933] lg:text-xl">
           <li
             className={`pb-1 lg:pb-4 border-b-[4px] border-white ${
               sectionMode === 1 ? "border-opacity-100" : "border-opacity-0"
-            } hover:border-opacity-100 cursor-pointer`}
+            } hover:border-opacity-100 cursor-pointer ${data?.videos.results.length === 0 && "lg:mr-8"}`}
             onClick={() => setSectionMode(1)}
           >
             suggested
           </li>
-          <li
-            className={`pb-1 lg:pb-4 border-b-[4px] border-white ${
-              sectionMode === 2 ? "border-opacity-100" : "border-opacity-0"
-            } hover:border-opacity-100 cursor-pointer lg:mx-8`}
-            onClick={() => setSectionMode(2)}
-          >
-            extras
-          </li>
+          {data?.videos.results.length > 0 && (
+            <li
+              className={`pb-1 lg:pb-4 border-b-[4px] border-white ${
+                sectionMode === 2 ? "border-opacity-100" : "border-opacity-0"
+              } hover:border-opacity-100 cursor-pointer lg:mx-8`}
+              onClick={() => setSectionMode(2)}
+            >
+              extras
+            </li>
+          )}
           <li
             className={`pb-1 lg:pb-4 border-b-[4px] border-white ${
               sectionMode === 3 ? "border-opacity-100" : "border-opacity-0"
@@ -49,28 +52,30 @@ const Tabs = ({ data, recommended, type }: Props) => {
         {sectionMode === 1 && recommended && (
           <MovieSlider title="" movies={recommended} id={1} />
         )}
-        {sectionMode === 2 && (
+        {sectionMode === 2 && data?.videos.results.length > 0 && (
           <div className="grid lg:grid-cols-5 lg:pb-0">
             {data && (
-              <MovieCard
-                type="trailer"
-                linkTrailer={`https://www.youtube.com/watch?v=${data?.videos.results[0].key}`}
-                imageLG={data?.backdrop_path}
-                title={data?.title || data?.original_name}
-              />
+              <div onClick={openTrailerPlayer}>
+                <MovieCard
+                  type="trailer"
+                  linkTrailer={`https://www.youtube.com/watch?v=${data?.videos.results[0].key}`}
+                  imageLG={data?.backdrop_path}
+                  title={data?.title || data?.original_name}
+                />
+              </div>
             )}
           </div>
         )}
         {sectionMode === 3 && (
           <div className="grid grid-cols-1 lg:grid-cols-2 animation-opacity transition-all duration-[10ms]">
-            <div className="lg:pr-5">
+            <div className="lg:pr-10  ">
               <h3 className="pb-5 lg:pb-6 lg:text-xl font-semibold">
                 {data?.title || data?.original_name}
               </h3>
               <p className="lg:text-xl">{data?.overview}</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 pt-2 w-full mt-3 lg:mt-[44px] lg:pl-3">
-              <ul className="text-base lg:text-sm lg:pr-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 pt-2 w-full mt-3 lg:mt-[90px] lg:pl-3">
+              <ul className="text-base lg:text-sm lg:pr-10">
                 <li className="mb-3 flex flex-col">
                   <span className="text-[#888888]">Duration:</span>
                   {data && (

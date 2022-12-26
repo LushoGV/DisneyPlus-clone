@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import avatars from "../api/avatars";
-import { useUserContext } from "../context/userContext";
+import avatars from "../../api/avatars";
+import { useUserContext } from "../../context/userContext";
 
 const Avatars = () => {
   const { newUserData, setNewUserData } = useUserContext();

@@ -13,11 +13,13 @@ import type { RootState } from "../app/store";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart, removeToCart } from "../features/cart/cartSlice";
 import movies from '../api/movies.json'
+import Trailer from "../components/Trailer";
 
 const MoviePage = () => {
   const [cart, setCart] = useState<string[]>([]);
   const [data, setData] = useState<iMoviePage>();
   const [recommended, setRecommended] = useState<ILocalMovies[]>();
+  const [activeTrailer, setActiveTrailer] = useState<boolean>(false)
   const cartState: string[] = useSelector((state: RootState) => state.cart);
   const dispatch = useDispatch();
   const { id, type } = useParams();
@@ -51,10 +53,11 @@ const MoviePage = () => {
   }, [id]);
 
   return (
-    <div className="min-h-screen lg:min-h-0 w-full lg:relative pb-12">
+    <>
+    <div className="min-h-screen lg:min-h-0 w-full relative pb-12">
       <div className="w-full h-full absolute top-0 left-0 ">
         <div
-          className={`top-0 left-0 w-full bg-[#1a1d29] h-full lg:fixed z-[0] lg:opacity-[0.2] transition-all duration-300 transform`}
+          className={`top-0 left-0 w-full bg-[#1a1d29] h-full lg:fixed z-[0] transition-all duration-300 transform`}
         >
           <div className={`relative`}>
             <img
@@ -66,7 +69,7 @@ const MoviePage = () => {
           </div>
         </div>
       </div>
-      <section className="z-10 top-0 relative px-4 lg:px-20 pt-56 lg:pt-20 w-full">
+      <section className="z-10 top-0 relative px-4 lg:px-24 pt-56 lg:pt-20 w-full">
         <h1 className="text-5xl text-center lg:text-left">
           {data?.title || data?.original_name}
         </h1>
@@ -88,8 +91,8 @@ const MoviePage = () => {
             <span className="min-w-[47px]">
               {type === "movie"
                 ? toHoursAndMinutes(data?.runtime)
-                : `${data?.seasons.length} ${
-                    data?.seasons.length > 1 ? "seasons" : "season"
+                : `${data?.seasons && data?.seasons.length} ${
+                  data?.seasons && data?.seasons.length > 1 ? "seasons" : "season"
                   }`}
             </span>
           )}
@@ -112,7 +115,7 @@ const MoviePage = () => {
               <FaPlay className="mr-4 text-base" />
               play
             </button>
-            <button className="hidden lg:flex items-center uppercase py-[14px] px-8 bg-black text-white border-[1px] hover:bg-white hover:text-black transition-all duration-[400ms] transform border-white rounded-[5px] text-lg mx-5">
+            <button className="hidden lg:flex items-center uppercase py-[14px] px-8 bg-black text-white border-[1px] hover:bg-white hover:text-black transition-all duration-[400ms] transform border-white rounded-[5px] text-lg mx-5" onClick={() => setActiveTrailer(true)}>
               trailer
             </button>
             {id && (
@@ -154,10 +157,13 @@ const MoviePage = () => {
           <p className="py-6 lg:py-4 text-lg lg:text-xl">{data?.overview}</p>
         </div>
         {data && recommended && type && (
-          <Tabs data={data} recommended={recommended} type={type} />
+          <Tabs data={data} recommended={recommended} type={type} openTrailerPlayer={() => setActiveTrailer(true)} />
         )}
       </section>
-    </div>
+    </div>    
+
+    {activeTrailer && data && <Trailer close={() => setActiveTrailer(false)} videoUrl={`https://www.youtube.com/watch?v=${data?.videos.results[0].key}`} />}
+    </>
   );
 };
 
