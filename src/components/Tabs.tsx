@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { ILocalMovies, iMoviePage } from "../interfaces";
+import { useEffect, useState } from "react";
+import { IMovie, iMoviePage } from "../interfaces";
 import { toHoursAndMinutes } from "../utils/dateParse";
+import { Link } from "react-router-dom";
 import MovieCard from "./MovieCard";
 import MovieSlider from "./MovieSlider";
 
 interface Props {
   data: iMoviePage;
-  recommended: ILocalMovies[];
+  recommended: IMovie[];
   type: string;
-  openTrailerPlayer: () => void;
+  trailerLink?: string;
 }
 
-const Tabs = ({ data, recommended, type, openTrailerPlayer }: Props) => {
+const Tabs = ({ data, recommended, type, trailerLink }: Props) => {
   const [sectionMode, setSectionMode] = useState<number>(1);
 
   useEffect(() => {}, [data]);
@@ -23,7 +24,9 @@ const Tabs = ({ data, recommended, type, openTrailerPlayer }: Props) => {
           <li
             className={`pb-1 lg:pb-4 border-b-[4px] border-white ${
               sectionMode === 1 ? "border-opacity-100" : "border-opacity-0"
-            } hover:border-opacity-100 cursor-pointer ${data?.videos.results.length === 0 && "lg:mr-8"}`}
+            } hover:border-opacity-100 cursor-pointer ${
+              data?.videos.results.length === 0 && "lg:mr-8"
+            }`}
             onClick={() => setSectionMode(1)}
           >
             suggested
@@ -54,15 +57,15 @@ const Tabs = ({ data, recommended, type, openTrailerPlayer }: Props) => {
         )}
         {sectionMode === 2 && data?.videos.results.length > 0 && (
           <div className="grid lg:grid-cols-5 lg:pb-0">
-            {data && (
-              <div onClick={openTrailerPlayer}>
+            {data && trailerLink && (
+              <Link to={trailerLink}>
                 <MovieCard
                   type="trailer"
                   linkTrailer={`https://www.youtube.com/watch?v=${data?.videos.results[0].key}`}
                   imageLG={data?.backdrop_path}
                   title={data?.title || data?.original_name}
                 />
-              </div>
+              </Link>
             )}
           </div>
         )}

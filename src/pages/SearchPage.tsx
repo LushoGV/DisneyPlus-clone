@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { AiFillStar } from "react-icons/ai";
 import { IoCloseOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import Grid from "../components/Grid";
-import { ILocalMovies } from "../interfaces";
+import { IMovie } from "../interfaces";
 import movies from "../api/movies.json";
+import Grid from "../components/Grid";
 
 const SearchPage = () => {
   const [inputContent, setInputContent] = useState<string>();
-  const [defaultData, setDefaultData] = useState<ILocalMovies[] | undefined>();
-  const [data, setData] = useState<ILocalMovies[] | undefined>();
+  const [defaultData, setDefaultData] = useState<IMovie[] | undefined>();
+  const [data, setData] = useState<IMovie[] | undefined>();
 
   const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     setData([]);
@@ -33,11 +33,10 @@ const SearchPage = () => {
             ?.toLocaleLowerCase()
             .includes(query.toLocaleLowerCase())
       );
-    
+
     setTimeout(() => {
       setData(dataFiltered.slice(0, 32));
-    },1000)
-    
+    }, 1000);
   };
 
   useEffect(() => {
@@ -54,7 +53,7 @@ const SearchPage = () => {
             className="ml-0 m-auto lg:text-5xl bg-transparent h-auto outline-0 py-3 lg:py-0 w-full transition-all text-[#a8a9ad] placeholder:text-[#a8a9ad] focus:lg:text-[#f9f9f9] focus:placeholder:lg:text-[#f9f9f9] placeholder:transition-all placeholder:duration-[0.3s]"
             placeholder="Search by title, character, or genre"
             onChange={handleChange}
-            value={inputContent || ''}
+            value={inputContent || ""}
             onBlur={() => !inputContent && setData(defaultData)}
           />
           <button

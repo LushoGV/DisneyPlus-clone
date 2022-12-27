@@ -1,3 +1,33 @@
+export interface IMovie {
+  adult?: boolean;
+  backdrop_path: string;
+  genre_ids: number[];
+  id: number;
+  original_language: string;
+  original_title?: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date?: string | Date;
+  title?: string;
+  video?: boolean;
+  vote_average: number;
+  vote_count: number;
+  company: string;
+  first_air_date?: string | Date;
+  name?: string;
+  origin_country?: string[];
+  original_name?: string;
+}
+
+export enum OriginCountry {
+  Us = "US",
+}
+
+export enum OriginalLanguage {
+  En = "en",
+}
+
 export interface iMovieCard {
   adult: boolean;
   backdrop_path: string;
@@ -66,35 +96,8 @@ export interface iMoviePage {
   original_name: string;
   seasons: Season[];
   type: string;
-  genre_ids: number[]
+  genre_ids: number[];
 }
-
-export interface ILocalMovies {
-  adult?:            boolean;
-  backdrop_path:     string;
-  genre_ids:         number[];
-  id:                number;
-  original_language: string;
-  original_title?:   string;
-  overview:          string;
-  popularity:        number;
-  poster_path:       string;
-  release_date?:     string;
-  title?:            string;
-  video?:            boolean;
-  vote_average:      number;
-  vote_count:        number;
-  first_air_date?:   string;
-  name?:             string;
-  origin_country?:   string[];
-  original_name?:    string;
-  seasons?: Season[];
-}
-
-export enum OriginCountry {
-  Us = "US",
-}
-
 
 export interface Credits {
   cast: Cast[];
@@ -189,11 +192,6 @@ export interface BelongsToCollection {
   backdrop_path: string;
 }
 
-export interface Credits {
-  cast: Cast[];
-  crew: Cast[];
-}
-
 export interface Cast {
   adult: boolean;
   gender: number;
@@ -214,10 +212,6 @@ export interface Cast {
 export interface Genre {
   id: number;
   name: string;
-}
-
-export enum OriginalLanguage {
-  En = "en",
 }
 
 export interface ProductionCompany {

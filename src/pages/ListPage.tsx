@@ -4,10 +4,10 @@ import type { RootState } from "../app/store";
 import { MdDownload } from "react-icons/md";
 import moviesData from "../api/movies.json";
 import MovieCard from "../components/MovieCard";
-import { ILocalMovies } from "../interfaces";
+import { IMovie } from "../interfaces";
 
 const ListPage = () => {
-  const [list, setList] = useState<ILocalMovies[] | undefined>();
+  const [list, setList] = useState<IMovie[] | undefined>();
   const cartSlice = useSelector((state: RootState) => state.cart);
 
   const loadData = () => {
@@ -62,7 +62,9 @@ const ListPage = () => {
     <>
       <header className="p-4 lg:px-20">
         <h1 className="font-semibold text-lg lg:hidden">Downloads</h1>
-        <h1 className="font-semibold text-4xl hidden lg:block pb-2">Watchlist</h1>
+        <h1 className="font-semibold text-4xl hidden lg:block pb-2">
+          Watchlist
+        </h1>
       </header>
       <section className="w-full px-4 min-h-[80vh] lg:px-20 pb-20 lg:min-h-0 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 gap-5">
         {list &&
@@ -71,9 +73,7 @@ const ListPage = () => {
               <MovieCard
                 type="grid"
                 id={element.id}
-                typeLink={
-                  element.first_air_date || element.seasons ? "tv" : "movie"
-                }
+                typeLink={element.first_air_date ? "tv" : "movie"}
                 imageLG={element.backdrop_path}
                 imageMobile={element.poster_path}
               />

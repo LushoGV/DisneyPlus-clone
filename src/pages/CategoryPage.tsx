@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import Grid from "../components/Grid";
-import movies from "../api/movies.json";
-import { ILocalMovies } from "../interfaces";
+import { IMovie } from "../interfaces";
 import { RiArrowDownSLine } from "react-icons/ri";
+import { filterData } from "../utils/Filter";
+import Grid from "../components/Grid";
 
 interface sortOptions {
   title: string;
@@ -11,13 +11,14 @@ interface sortOptions {
 }
 
 const CategoryPage = () => {
-  const [data, setData] = useState<ILocalMovies[]>();
+  const [data, setData] = useState<IMovie[]>();
   const [dropbox, setDropbox] = useState<boolean>(false);
   const [optionSelected, setOptionSelected] = useState<sortOptions>({
     title: "Featured",
     code: 1,
   });
   const { pathname } = useLocation();
+
   const sortOptions = [
     { title: "Featured", code: 1 },
     { title: "All Movies A-Z", code: 2 },
@@ -27,126 +28,9 @@ const CategoryPage = () => {
     { title: "Drama", code: 18 },
   ];
 
-  const sortData = (code: any) => {
-    switch (code) {
-      case 1:
-        setTimeout(() => {
-          setData(
-            movies
-              .filter((element) =>
-                pathname.includes("movies")
-                  ? !element.first_air_date
-                  : element.first_air_date
-              )
-              .slice(0, 22)
-              .sort((a, b) => {
-                if (a.id > b.id) {
-                  return 1;
-                }
-                if (a.id < b.id) {
-                  return -1;
-                }
-                return 0;
-              })
-          );
-        }, 500);
-        return;
-
-      case 2:
-        setTimeout(() => {
-          let dataSorted = movies.sort((a, b) => {
-            if (
-              (a.title && b.title && a.title > b.title) ||
-              (a.name && b.name && a.name > b.name)
-            ) {
-              return 1;
-            }
-            if (
-              (a.title && b.title && a.title < b.title) ||
-              (a.name && b.name && a.name < b.name)
-            ) {
-              return -1;
-            }
-            return 0;
-          });
-
-          setData(
-            dataSorted
-              .filter((element) =>
-                pathname.includes("movies")
-                  ? !element.first_air_date
-                  : element.first_air_date
-              )
-              .slice(0, 22)
-          );
-        }, 500);
-        break;
-
-      case 16:
-        setTimeout(() => {
-          setData(
-            movies
-              .filter((element) =>
-                pathname.includes("movies")
-                  ? !element.first_air_date && element.genre_ids.includes(code)
-                  : element.first_air_date && element.genre_ids.includes(code)
-              )
-              .slice(0, 22)
-          );
-        }, 500);
-        break;
-
-      case 18:
-        setTimeout(() => {
-          setData(
-            movies
-              .filter((element) =>
-                pathname.includes("movies")
-                  ? !element.first_air_date && element.genre_ids.includes(code)
-                  : element.first_air_date && element.genre_ids.includes(code)
-              )
-              .slice(0, 22)
-          );
-        }, 500);
-        break;
-
-      case 35:
-        setTimeout(() => {
-          setData(
-            movies
-              .filter((element) =>
-                pathname.includes("movies")
-                  ? !element.first_air_date && element.genre_ids.includes(code)
-                  : element.first_air_date && element.genre_ids.includes(code)
-              )
-              .slice(0, 22)
-          );
-        }, 500);
-        break;
-
-      default:
-        setTimeout(() => {
-          setData(
-            movies
-              .filter((element) =>
-                pathname.includes("movies")
-                  ? (!element.first_air_date &&
-                      element.genre_ids.includes(code[0])) ||
-                    element.genre_ids.includes(code[1])
-                  : (element.first_air_date &&
-                      element.genre_ids.includes(code[0])) ||
-                    element.genre_ids.includes(code[1])
-              )
-              .slice(0, 22)
-          );
-        }, 500);
-        break;
-    }
-  };
-
   useEffect(() => {
     setData([]);
-    sortData(1);
+    setData(filterData({ type: pathname.substring(1), filter: "featured" }));
     setOptionSelected({
       title: "Featured",
       code: 1,
@@ -155,7 +39,15 @@ const CategoryPage = () => {
 
   useEffect(() => {
     setData([]);
-    sortData(optionSelected.code);
+    console.log(pathname.substring(1));
+    setData(
+      filterData({
+        type: pathname.substring(1),
+        filter: optionSelected.title.toLowerCase().includes("a-z")
+          ? "a-z"
+          : optionSelected.title.toLowerCase(),
+      })
+    );
   }, [optionSelected]);
 
   return (
@@ -166,16 +58,14 @@ const CategoryPage = () => {
         </h1>
         <div
           className="flex items-center justify-between pt-4 pb-3 relative bg-[#b6b6b633] h-[36px] mb-5 px-3 rounded-[18px] hover:bg-[#00000066] cursor-pointer transition-all duration-300 transform"
-          onClick={() => setDropbox(!dropbox)}   
-       >
+          onClick={() => setDropbox(!dropbox)}
+        >
           <span className="pl-[2px] pr-3 pb-[4px] text-sm">
             {optionSelected.title}
           </span>
           <RiArrowDownSLine className="text-2xl pb-[2px]" />
           {dropbox && (
-            <div
-              className="bg-[#131313] border-[1px] border-[#2a2a2a] absolute top-[45px] right-0 lg:left-[0px] lg:right-auto rounded-[5px]"  
-            >
+            <div className="bg-[#131313] border-[1px] border-[#2a2a2a] absolute top-[45px] right-0 lg:left-[0px] lg:right-auto rounded-[5px]">
               <ul className="flex flex-col pt-4 pb-9 text-xs">
                 {sortOptions.map((element, index) => (
                   <li

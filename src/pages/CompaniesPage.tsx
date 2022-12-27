@@ -1,9 +1,14 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import companies from "../api/companies";
 import MovieSlider from "../components/MovieSlider";
-import { iSlider } from "../interfaces";
+import { IMovie, iSlider } from "../interfaces";
+import { filterData } from "../utils/Filter";
+
+interface iData {
+  title: string;
+  content: IMovie[];
+}
 
 const CompaniesPage = () => {
   const [ChangeBackground, setChangeBackground] = useState(false);
@@ -12,37 +17,29 @@ const CompaniesPage = () => {
     video: "",
   });
   const { company } = useParams();
-  const [data, setData] = useState<iSlider[]>();
+  const [data, setData] = useState<iData[]>();
 
   const getData = async (companyCode: string) => {
-    const resFeatured = await axios.get(
-      companyCode === "1"
-        ? "https://api.themoviedb.org/3/search/movie?api_key=779b195bed29319f74d486e3c7b2af1e&language=en-US&page=1&include_adult=false&query=star%20wars&page=1"
-        : `https://api.themoviedb.org/3/discover/movie?api_key=779b195bed29319f74d486e3c7b2af1e&language=en-US&language=en-US&sort_by=popularity.desc&with_companies=${companyCode}&page=2`
-    );
-    const resOriginals = await axios.get(
-      companyCode === "1"
-        ? "https://api.themoviedb.org/3/search/movie?api_key=779b195bed29319f74d486e3c7b2af1e&language=en-US&page=1&include_adult=false&query=star%20wars&page=2"
-        : `https://api.themoviedb.org/3/discover/movie?api_key=779b195bed29319f74d486e3c7b2af1e&language=en-US&language=en-US&sort_by=popularity.desc&with_companies=${companyCode}&page=3`
-    );
-    const resPopularSeries = await axios.get(
-      companyCode === "1"
-        ? "https://api.themoviedb.org/3/search/movie?api_key=779b195bed29319f74d486e3c7b2af1e&language=en-US&page=1&include_adult=false&query=star%20wars&page=3"
-        : `https://api.themoviedb.org/3/tv/popular?api_key=779b195bed29319f74d486e3c7b2af1e&language=en-US&page=1&with_companies=${companyCode}`
-    );
-
     setData([
       {
         title: companyCode === "1" ? "Popular" : "Featured",
-        content: resFeatured.data.results,
+        content: filterData({ companyCode: companyCode, filter: "featured" }),
       },
       {
         title: "Originals",
-        content: resOriginals.data.results,
+        content: filterData({
+          companyCode: companyCode,
+          filter: "popularity",
+          type: "movie",
+        }),
       },
       {
         title: companyCode === "1" ? "Featured" : "Series and Specials",
-        content: resPopularSeries.data.results,
+        content: filterData({
+          companyCode: companyCode,
+          type: "tv",
+          filter: "popularity",
+        }),
       },
     ]);
   };

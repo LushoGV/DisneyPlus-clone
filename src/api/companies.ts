@@ -21,7 +21,7 @@ const companies = [
       "https://vod-bgc-sa-east-1.media.dssott.com/bgui/ps01/disney/bgui/2021/11/04/1636056889-marvel.mp4",
     image:
       "https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/DA2E198288BFCA56AB53340211B38DE7134E40E4521EDCAFE6FFB8CD69250DE9/scale?width=1440&aspectRatio=1.78&format=jpeg",
-    code: "420|13252|2301",
+    code: "420",
   },
   {
     name: "starwars",

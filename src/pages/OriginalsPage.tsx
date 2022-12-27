@@ -1,35 +1,30 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
+import { IMovie } from "../interfaces";
+import { filterData } from "../utils/Filter";
 import MovieSlider from "../components/MovieSlider";
-import { iSlider } from "../interfaces";
+
+interface iData {
+  title: string;
+  content: IMovie[];
+}
 
 const OriginalsPage = () => {
   const [changeHeader, setChangeHeader] = useState<boolean>(false);
-  const [data, setData] = useState<iSlider[]>();
+  const [data, setData] = useState<iData[]>();
 
   const getData = async () => {
-    const resFeatured = await axios.get(
-      "https://api.themoviedb.org/3/discover/movie?api_key=779b195bed29319f74d486e3c7b2af1e&language=en-US&language=en-US&sort_by=popularity.desc&with_companies=3|2|420"
-    );
-    const resSeries = await axios.get(
-      "https://api.themoviedb.org/3/discover/tv?api_key=779b195bed29319f74d486e3c7b2af1e&language=en-US&language=en-US&sort_by=popularity.desc&genre=35&with_companies=3|2|420"
-    );
-    const resMovies = await axios.get(
-      "https://api.themoviedb.org/3/discover/movie?api_key=779b195bed29319f74d486e3c7b2af1e&language=en-US&language=en-US&sort_by=popularity.desc&with_companies=1|420&page=2"
-    );
-
     setData([
       {
         title: "Featured",
-        content: resFeatured.data.results,
+        content: filterData({ filter: "featured", companyCode: "2" }),
       },
       {
         title: "Movies",
-        content: resMovies.data.results,
+        content: filterData({ type: "movie", filter: "popularity" }),
       },
       {
         title: "Series",
-        content: resSeries.data.results,
+        content: filterData({ type: "tv", filter: "popularity" }),
       },
     ]);
   };

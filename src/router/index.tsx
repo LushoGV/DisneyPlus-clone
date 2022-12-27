@@ -14,6 +14,7 @@ import MoviePage from "../pages/MoviePage";
 import AuthLayout from "../layout/AuthLayout";
 import AuthForm from "../pages/auth/AuthForm";
 import AuthGuard from "../guards/AuthGuard";
+import Trailer from "../components/Trailer";
 
 const router = createBrowserRouter([
   {
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
             element: <MoviePage />,
           },
         ],
+      },
+      {
+        path: "/trailer/:id/:trailer/:type",
+        element: <Trailer />,
       },
       {
         path: "/profile",

@@ -2,20 +2,20 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Navigation, Pagination } from "swiper";
 import { useState, useEffect } from "react";
+import MovieCard from "./MovieCard";
+import { IMovie } from "../interfaces";
 import "swiper/css";
 import "swiper/css/pagination";
-import MovieCard from "./MovieCard";
-import { ILocalMovies } from "../interfaces";
 
 interface Props {
   title: string;
-  movies: ILocalMovies[];
+  movies: IMovie[];
   id: number;
 }
 
 const MovieSlider = ({ title, movies, id }: Props) => {
   const [sliderCount, setSliderCount] = useState<number>(0);
-  const [content, setContent] = useState<ILocalMovies[]>();
+  const [content, setContent] = useState<IMovie[]>();
 
   useEffect(() => {
     setContent(
@@ -77,7 +77,7 @@ const MovieSlider = ({ title, movies, id }: Props) => {
                     imageMobile={element.poster_path}
                     imageLG={element.backdrop_path}
                     id={element.id}
-                    typeLink = { element.first_air_date || element.seasons ? "tv" : "movie"}              
+                    typeLink = { element.first_air_date ? "tv" : "movie"}              
                   />
                 </SwiperSlide>
               </div>

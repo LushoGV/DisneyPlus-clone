@@ -1,8 +1,8 @@
-import { ILocalMovies } from "../interfaces";
+import { IMovie } from "../interfaces";
 import MovieCard from "./MovieCard";
 
 interface Props {
-  content: ILocalMovies[];
+  content: IMovie[];
 }
 
 const Grid = ({ content }: Props) => {
@@ -16,7 +16,7 @@ const Grid = ({ content }: Props) => {
               type="grid"
               id={element.id}
               typeLink={
-                element.first_air_date || element.seasons ? "tv" : "movie"
+                element.first_air_date ? "tv" : "movie"
               }
               imageLG={element.backdrop_path}
               imageMobile={element.poster_path}

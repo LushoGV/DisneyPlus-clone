@@ -3,44 +3,61 @@ import Slider from "../components/Slider";
 import sections from "../api/sections";
 import MovieSlider from "../components/MovieSlider";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { useState, useEffect } from "react";
-import { iSlider } from "../interfaces";
+import { IMovie, iSlider } from "../interfaces";
 import { bigSliderData } from "../api/bigSliderData";
+import { filterData } from "../utils/Filter";
+
+interface iData {
+  title: string;
+  content: IMovie[];
+}
 
 const HomePage = () => {
-  const [data, setData] = useState<iSlider[]>();
+  const [data, setData] = useState<iData[]>();
 
   const getData = async () => {
-    const res1 = await axios.get(
-      "https://api.themoviedb.org/3/discover/movie?api_key=779b195bed29319f74d486e3c7b2af1e&language=en-US&language=en-US&sort_by=popularity.desc&with_companies=3"
-    );
-    const res2 = await axios.get(
-      "https://api.themoviedb.org/3/discover/movie?api_key=779b195bed29319f74d486e3c7b2af1e&language=en-US&language=en-US&sort_by=popularity.desc&genre=35&with_companies=2"
-    );
-    const res3 = await axios.get(
-      "https://api.themoviedb.org/3/discover/movie?api_key=779b195bed29319f74d486e3c7b2af1e&language=en-US&language=en-US&sort_by=popularity.desc&with_companies=1|420"
-    );
-    const res4 = await axios.get(
-      "https://api.themoviedb.org/3/tv/popular?api_key=779b195bed29319f74d486e3c7b2af1e&language=en-US&page=1&with_companies=3"
-    );
+    // const res1 = await axios.get(
+    //   "https://api.themoviedb.org/3/discover/movie?api_key=779b195bed29319f74d486e3c7b2af1e&language=en-US&language=en-US&sort_by=popularity.desc&with_companies=3"
+    // );
+    // const res2 = await axios.get(
+    //   "https://api.themoviedb.org/3/discover/movie?api_key=779b195bed29319f74d486e3c7b2af1e&language=en-US&language=en-US&sort_by=popularity.desc&genre=35&with_companies=2"
+    // );
+    // const res3 = await axios.get(
+    //   "https://api.themoviedb.org/3/discover/movie?api_key=779b195bed29319f74d486e3c7b2af1e&language=en-US&language=en-US&sort_by=popularity.desc&with_companies=1|420"
+    // );
+    // const res4 = await axios.get(
+    //   "https://api.themoviedb.org/3/tv/popular?api_key=779b195bed29319f74d486e3c7b2af1e&language=en-US&page=1&with_companies=3"
+    // );
 
     setData([
       {
-        title: "Recommended For You",
-        content: res1.data.results,
+        title: "New to Disney+",
+        content: filterData({ filter: "featured" }),
       },
       {
-        title: "Comedy",
-        content: res2.data.results,
+        title: "Recommended For You",
+        content: filterData({ filter: "popularity", companyCode: "2" }),
       },
       {
         title: "Action and Adventure",
-        content: res3.data.results,
+        content: filterData({ filter: "action/adventure", companyCode: "2" }),
       },
       {
         title: "Series and Specials",
-        content: res4.data.results,
+        content: filterData({ type: "tv" }),
+      },
+      {
+        title: "Pixar Animation",
+        content: filterData({ filter: "comedy", companyCode: "3" }),
+      },
+      {
+        title: "Featured Marvel",
+        content: filterData({ companyCode: "420" }),
+      },
+      {
+        title: "Star Wars",
+        content: filterData({ companyCode: "1" }),
       },
     ]);
   };
@@ -60,7 +77,7 @@ const HomePage = () => {
           />
         </Link>
       </nav>
-      <Slider content={bigSliderData}/>
+      <Slider content={bigSliderData} />
       <section className="px-4 lg:px-20 mt-6 lg:mt-3 pb-20">
         <ul className="w-full flex items-stretch">
           {sections.map((element, index) => {
@@ -77,12 +94,13 @@ const HomePage = () => {
         </ul>
         {data &&
           data.map((element, index) => (
-              <div key={index}><MovieSlider
+            <div key={index}>
+              <MovieSlider
                 title={element.title}
                 movies={element.content}
                 id={index}
               />
-              </div>
+            </div>
           ))}
       </section>
     </>
