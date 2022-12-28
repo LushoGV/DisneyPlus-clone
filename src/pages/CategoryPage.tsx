@@ -4,6 +4,7 @@ import { IMovie } from "../interfaces";
 import { RiArrowDownSLine } from "react-icons/ri";
 import { filterData } from "../utils/Filter";
 import Grid from "../components/Grid";
+import Loader from "../components/Loader";
 
 interface sortOptions {
   title: string;
@@ -12,6 +13,7 @@ interface sortOptions {
 
 const CategoryPage = () => {
   const [data, setData] = useState<IMovie[]>();
+  const [loading, setLoading] = useState<boolean>(true);
   const [dropbox, setDropbox] = useState<boolean>(false);
   const [optionSelected, setOptionSelected] = useState<sortOptions>({
     title: "Featured",
@@ -29,25 +31,31 @@ const CategoryPage = () => {
   ];
 
   useEffect(() => {
+    setLoading(true);
     setData([]);
     setData(filterData({ type: pathname.substring(1), filter: "featured" }));
     setOptionSelected({
       title: "Featured",
       code: 1,
     });
+    setLoading(false);
   }, [pathname]);
 
   useEffect(() => {
+    setLoading(true);
     setData([]);
-    console.log(pathname.substring(1));
-    setData(
-      filterData({
-        type: pathname.substring(1),
-        filter: optionSelected.title.toLowerCase().includes("a-z")
-          ? "a-z"
-          : optionSelected.title.toLowerCase(),
-      })
-    );
+
+    setTimeout(() => {
+      setData(
+        filterData({
+          type: pathname.substring(1),
+          filter: optionSelected.title.toLowerCase().includes("a-z")
+            ? "a-z"
+            : optionSelected.title.toLowerCase(),
+        })
+      );
+    }, 500);
+    setLoading(false);
   }, [optionSelected]);
 
   return (

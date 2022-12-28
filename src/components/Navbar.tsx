@@ -24,7 +24,7 @@ const Navbar = () => {
 
   const logOut = async () => {
     await signOut(auth);
-    navigate("/auth/login");
+    navigate("/auth");
   };
 
   return (
@@ -108,10 +108,10 @@ const Navbar = () => {
         <div className="profile px-4 flex items-center relative pr-5 text-[15px]">
           <header className="flex items-center z-10">
             <span className="hidden xl:block absolute w-[100px] right-8 title cursor-pointer mr-12 max-w-[70px] max-h-[20px] overflow-hidden text-ellipsis text-right">
-              {userState.name}
+              {userState.profile.name}
             </span>
             <img
-              src={userState.image}
+              src={userState.profile.image}
               className="w-12 h-12 rounded-full bg-white cursor-pointer"
             ></img>
           </header>

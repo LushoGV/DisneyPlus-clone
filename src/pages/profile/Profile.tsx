@@ -7,7 +7,7 @@ const Profile = () => {
 
   const changeUsername = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     setError(false);
-    setNewUserData({ ...newUserData, name: target.value });
+    setNewUserData({ ...newUserData, profile: {name: target.value, image: newUserData.profile.image} });
   };
 
   const checkInputContent = ({
@@ -40,14 +40,14 @@ const Profile = () => {
             onFocus={() => setError(false)}
             onBlur={checkInputContent}
             onChange={changeUsername}
-            value={newUserData.name}
+            value={newUserData.profile.name}
           />
         </div>
         <div className="image-profile relative m-auto my-0 lg:m-0 lg:ml-[50px] rounded-full hover:scale-105 transition duration-[400ms] flex">
           <Link to={"/profile/select-avatar"}>
             <div className="absolute z-10 top-0 left-0 w-full h-full cursor-pointer rounded-full border-profile-image hover:border-[4px] border-white border-opacity-10 hover:border-opacity-80 transition duration-[300ms]"></div>
             <img
-              src={newUserData.image}
+              src={newUserData.profile.image}
               alt=""
               className="w-28 lg:w-56 cursor-pointer"
             />

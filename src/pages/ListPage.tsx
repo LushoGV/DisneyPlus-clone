@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import type { RootState } from "../app/store";
 import { MdDownload } from "react-icons/md";
 import moviesData from "../api/movies.json";
 import MovieCard from "../components/MovieCard";
 import { IMovie } from "../interfaces";
+import type { RootState } from "../app/store";
 
 const ListPage = () => {
   const [list, setList] = useState<IMovie[] | undefined>();
-  const cartSlice = useSelector((state: RootState) => state.cart);
+  const userState = useSelector((state: RootState) => state.user);
 
   const loadData = () => {
     setList(
-      cartSlice
+      userState.cart
         .map((element) => {
-          return moviesData.filter((item) => item.id.toString() === element);
+          return moviesData.filter((item) => item.id === element);
         })
         .flat()
     );
@@ -23,7 +23,7 @@ const ListPage = () => {
   useEffect(() => {
     setList([]);
     loadData();
-  }, []);
+  }, [userState.cart]);
 
   if (list && !list.length)
     return (

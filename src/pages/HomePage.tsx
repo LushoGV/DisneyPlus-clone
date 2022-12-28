@@ -98,6 +98,7 @@ const HomePage = () => {
               <MovieSlider
                 title={element.title}
                 movies={element.content}
+                special = {index === 2}
                 id={index}
               />
             </div>

@@ -49,7 +49,7 @@ const BottomBar = () => {
               : "border-[2px] border-gray-500 absolute top-0 rounded-full"
           }
         >
-          <img src={userState.image} className="w-8 h-8 rounded-full"></img>
+          <img src={userState.profile.image} className="w-8 h-8 rounded-full"></img>
         </NavLink>
       </li>
     </ul>

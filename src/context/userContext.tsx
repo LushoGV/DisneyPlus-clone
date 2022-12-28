@@ -1,38 +1,41 @@
-import {createContext, useContext, useState} from 'react'
-
-type user = {
-    name: string,
-    image: string
-}
+import { createContext, useContext, useState } from "react";
+import { iUserState } from "../features/user/userSlice";
 
 interface ProviderProps {
-    children: JSX.Element | JSX.Element[];
+  children: JSX.Element | JSX.Element[];
 }
 
 interface context {
-    newUserData: user
-    error: boolean
-    setNewUserData: React.Dispatch<React.SetStateAction<user>>
-    setError: React.Dispatch<React.SetStateAction<boolean>>
+  newUserData: iUserState;
+  error: boolean;
+  setNewUserData: React.Dispatch<React.SetStateAction<iUserState>>;
+  setError: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const userContext = createContext<context>({} as context)
+const userContext = createContext<context>({} as context);
 
-export const UserProvider = ({children}:ProviderProps) => {
-    const [newUserData, setNewUserData] = useState<user>({
-        name: "",
-        image: "",
-    })
-    const [error, setError] = useState<boolean>(false)
+export const UserProvider = ({ children }: ProviderProps) => {
+  const [newUserData, setNewUserData] = useState<iUserState>({
+    id: "",
+    cart: [],
+    profile: {
+      name: "",
+      image: "",
+    } 
+  });
+  const [error, setError] = useState<boolean>(false);
 
-    return(
-        <userContext.Provider value={{newUserData, setNewUserData, error, setError}}>
-            {children}
-        </userContext.Provider>
-    )
-}
+  return (
+    <userContext.Provider
+      value={{ newUserData, setNewUserData, error, setError }}
+    >
+      {children}
+    </userContext.Provider>
+  );
+};
 
 export const useUserContext = () => {
-    const {newUserData, setNewUserData, error, setError} = useContext(userContext)
-    return {newUserData, setNewUserData, error, setError}
-}
+  const { newUserData, setNewUserData, error, setError } =
+    useContext(userContext);
+  return { newUserData, setNewUserData, error, setError };
+};

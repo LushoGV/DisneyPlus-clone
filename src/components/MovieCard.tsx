@@ -6,6 +6,7 @@ interface Props {
   id?: number;
   title?: string;
   type?: string;
+  special?:boolean;
   imageMobile?: string;
   imageLG?: string;
   linkTrailer?: string
@@ -13,7 +14,7 @@ interface Props {
   typeLink?: string
 }
 
-const MovieCard = ({ type, title, imageMobile, imageLG, id, linkTrailer, logo, typeLink }: Props) => {
+const MovieCard = ({ type, title, special, imageMobile, imageLG, id, linkTrailer, logo, typeLink }: Props) => {
 
   if (type === "slider")
     return (
@@ -22,15 +23,15 @@ const MovieCard = ({ type, title, imageMobile, imageLG, id, linkTrailer, logo, t
           <div className="absolute z-10 top-0 left-0 w-full h-full rounded-md hover:border-[3px] border-white border-opacity-10 hover:border-opacity-80"></div>
           <div className="bg-gradient-to-tl from-[#1e1f2a] to-[#30323e] rounded-md w-full">
             <img
-              className="rounded-md w-full animation-opacity block lg:hidden"
+              className={`rounded-md w-full animation-opacity ${special ? "block" :"block lg:hidden"}`}
               src={
                 imageMobile && `https://image.tmdb.org/t/p/w500/${imageMobile}`
               }
               alt=""
             />
             <img
-              className="rounded-md w-full animation-opacity hidden lg:block"
-              src={imageLG && `https://image.tmdb.org/t/p/original/${imageLG}`}
+              className={`rounded-md w-full animation-opacity ${special ? "hidden" : "hidden lg:block"}`}
+              src={imageLG && `https://image.tmdb.org/t/p/w500/${imageLG}`}
               alt=""
             />
           </div>
@@ -53,7 +54,7 @@ const MovieCard = ({ type, title, imageMobile, imageLG, id, linkTrailer, logo, t
             />
              <img
               className="rounded-md w-full object-cover animation-opacity lg:block hidden"
-              src={imageLG && `https://image.tmdb.org/t/p/original/${imageLG}`}
+              src={imageLG && `https://image.tmdb.org/t/p/w500/${imageLG}`}
               alt=""
             />
           </div>
@@ -73,7 +74,7 @@ const MovieCard = ({ type, title, imageMobile, imageLG, id, linkTrailer, logo, t
               alt=""
             />
              <img
-              src={`https://image.tmdb.org/t/p/original/${imageMobile}`}  
+              src={`https://image.tmdb.org/t/p/w500/${imageMobile}`}  
               className="animation-opacity bg-gradient-to-tl from-[#1e1f2a] to-[#30323e] rounded-md w-full h-[230px] object-cover object-center lg:hidden"
               alt=""
             />
@@ -94,12 +95,9 @@ const MovieCard = ({ type, title, imageMobile, imageLG, id, linkTrailer, logo, t
           <div className="bg-gradient-to-tl from-[#1e1f2a] to-[#30323e] rounded-md w-full">
             <img
               className="rounded-md w-full animation-opacity"
-              src={`https://image.tmdb.org/t/p/original/${imageLG}`}
+              src={`https://image.tmdb.org/t/p/w500/${imageLG}`}
               alt=""
             />
-            {/* <video src={`https://image.tmdb.org/t/p/original/${imageLG}`} className="rounded-md w-full animation-opacity">
-            <source src={linkTrailer} />
-            </video> */}
           </div>
         </div>
         <h3 className="pt-3 pl-2 text-sm font-semibold">

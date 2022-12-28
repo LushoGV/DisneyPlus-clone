@@ -11,14 +11,16 @@ import { toHoursAndMinutes } from "../utils/dateParse";
 import Tabs from "../components/Tabs";
 import type { RootState } from "../app/store";
 import { useSelector, useDispatch } from "react-redux";
-import { addToCart, removeToCart } from "../features/cart/cartSlice";
+import { addToCart, removeToCart } from "../features/user/userSlice";
 import { filterData } from "../utils/Filter";
+import { iUserState } from "../features/user/userSlice";
+import { updateCart } from "../utils/FirebaseFunctions";
 
 const MoviePage = () => {
-  const [cart, setCart] = useState<string[]>([]);
+  const [cart, setCart] = useState<number[]>([]);
   const [data, setData] = useState<iMoviePage>();
   const [recommended, setRecommended] = useState<IMovie[]>();
-  const cartState: string[] = useSelector((state: RootState) => state.cart);
+  const userState:iUserState = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const { id, type } = useParams();
 
@@ -38,19 +40,22 @@ const MoviePage = () => {
     setRecommended(resRecommended);
   };
 
-  const handleCart = (movie: string) => {
-    if (cart.includes(movie)) {
+  const handleCart = async (movie: string) => {
+    if (cart.includes(Number(movie))) {
       dispatch(removeToCart(movie));
-      setCart(cart.filter((element) => element !== movie));
+      await updateCart(userState.id, cart.filter((element) => element !== Number(movie)))
+      setCart(cart.filter((element) => element !== Number(movie)));
     } else {
       dispatch(addToCart(movie));
-      setCart([...cart, movie]);
+      await updateCart(userState.id, [...cart, Number(movie)])
+      setCart([...cart, Number(movie)]);
     }
   };
 
+
   useEffect(() => {
     getData();
-    setCart(cartState);
+    setCart(userState.cart);
   }, [id]);
 
   return (
@@ -137,7 +142,7 @@ const MoviePage = () => {
                   className="lg:flex flex-col items-center lg:w-11 lg:h-11 lg:border-[2px] lg:border-white lg:bg-black lg:text-white lg:rounded-full hover:bg-white hover:text-black transition-all duration-[400ms] transform hidden"
                   onClick={() => handleCart(id)}
                 >
-                  {id && cart.includes(id) ? (
+                  {id && cart.includes(Number(id)) ? (
                     <BsCheck2 className="text-[1.6rem] my-auto text-[#005bd2]" />
                   ) : (
                     <RiAddLine className="text-xl m-auto" />
@@ -166,7 +171,7 @@ const MoviePage = () => {
                   className="flex flex-col items-center lg:hidden mx-3 lg:w-11 lg:h-11 lg:border-[2px] lg:border-white lg:bg-black lg:text-white lg:rounded-full"
                   onClick={() => handleCart(id)}
                 >
-                  {id && cart.includes(id) ? (
+                  {id && cart.includes(Number(id)) ? (
                     <BsCheck2 className="text-[1.6rem] my-auto text-[#005bd2]" />
                   ) : (
                     <MdDownload className="text-[1.6rem]" />

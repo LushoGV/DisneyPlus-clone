@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import avatars from "../../api/avatars";
 import { useUserContext } from "../../context/userContext";
+import avatars from "../../api/avatars";
 
 const Avatars = () => {
   const { newUserData, setNewUserData } = useUserContext();
@@ -17,7 +17,7 @@ const Avatars = () => {
               key={element.id}
               className="p-5 flex transition-all duration-[400ms] transform"
               onClick={() =>
-                setNewUserData({ ...newUserData, image: element.image })
+                setNewUserData({ ...newUserData, profile: {name: newUserData.profile.name, image: element.image }})
               }
             >
               <div className="image-profile relative m-auto my-0 lg:m-0 rounded-full hover:scale-105 transition duration-[400ms] flex">

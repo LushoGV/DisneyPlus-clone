@@ -1,16 +1,16 @@
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-} from "firebase/auth";
+import {createUserWithEmailAndPassword,signInWithEmailAndPassword,signInWithPopup} from "firebase/auth";
 import { FormEvent, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { auth, provider } from "../../database/firebase";
+import { addInitialData } from "../../features/user/userSlice";
+import { getUser } from "../../utils/FirebaseFunctions";
 
 const AuthForm = () => {
   const [steps, setSteps] = useState<number>(0);
   const [error, setError] = useState<boolean | string>(false);
   const [loading, setLoading] = useState<boolean>(false)
+  const dispatch = useDispatch()
   const [inputContent, setInputContent] = useState({
     email: "",
     password: "",
@@ -19,24 +19,32 @@ const AuthForm = () => {
   const navigate = useNavigate();
 
   const handleGoogleAuth = async () => {
-    await signInWithPopup(auth, provider);
+    const res = await signInWithPopup(auth, provider);
+    const resUser = await getUser(res.user.uid, res.user.displayName)
+    dispatch(addInitialData(resUser))
     navigate("/");
   };
 
   const handleAuth = async () => {
     setLoading(true)
     try {
-      section === "signUp"
-        ? await createUserWithEmailAndPassword(
-            auth,
-            inputContent.email,
-            inputContent.password
-          )
-        : await signInWithEmailAndPassword(
-            auth,
-            inputContent.email,
-            inputContent.password
-          );
+      if(section === "signUp"){
+        const res = await createUserWithEmailAndPassword(
+          auth,
+          inputContent.email,
+          inputContent.password
+        )
+        const resUser = await getUser(res.user.uid, res.user.displayName)
+        dispatch(addInitialData(resUser))
+      }else{
+        const res = await signInWithEmailAndPassword(
+          auth,
+          inputContent.email,
+          inputContent.password
+        );
+        const resUser = await getUser(res.user.uid, res.user.displayName)
+        dispatch(addInitialData(resUser))
+      }
 
           setTimeout(()=>{
             setLoading(false)
@@ -207,25 +215,5 @@ const AuthForm = () => {
     </>
   );
 };
-
-{
-  /* <section className=" w-full max-w-sm m-auto">
-    <form action="" className=" mt-0 w-full">
-      <h2 className="pb-3 text-2xl font-semibold">{section === "signUp" ? "Create a password" : "Enter your password"}</h2>
-      <p className="pb-5 text-sm pr-10">
-      {section === "signUp" ? "You will use this email and password to log into your Disney+ account to watch your favorite shows and movies." : "You will use this email and password to log into your Disney+ account to watch your favorite shows and movies."}
-      </p>
-      <input type="text" placeholder="Contraseña" className="bg-[#fafafa1a] py-3 pl-4 w-full rounded-[2px] mb-1 outline-0 border-[1px] border-[#fafafa1a] focus:border-[#f9f9f94d]" />
-      <span className="text-[11px] text-[#f9f9f98a]">{section === "signUp" ? "Use a minimum of 6 characters (case sensitive) with at least one number or special character." : "(case sensitive)"}</span>
-      
-      <div className="my-3">
-        <p>You'll be using this email to log in:</p>
-        <p>Email IN USEEE </p>
-      </div>
-      
-      <input type="submit" value="log in" className="bg-[#0072d2] py-3 pl-4 w-full rounded-[2px] my-4 uppercase font-semibold cursor-pointer hover:bg-[#0082f0]"/>
-    </form>
-  </section> */
-}
 
 export default AuthForm;

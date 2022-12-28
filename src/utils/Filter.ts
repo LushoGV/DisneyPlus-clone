@@ -42,7 +42,6 @@ export const filterData = ({ type, companyCode, filter, id }: params) => {
           }
           return 0;
         });
-        console.log(data);
         break;
 
       case "a-z":

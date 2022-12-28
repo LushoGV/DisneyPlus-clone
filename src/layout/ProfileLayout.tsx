@@ -1,10 +1,11 @@
+import { useEffect } from "react";
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
-import BottomBar from "../components/BottomBar";
 import { updateUserData } from "../features/user/userSlice";
 import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from "../app/store";
 import { useUserContext } from "../context/userContext";
-import { useEffect } from "react";
+import { updateUser } from "../utils/FirebaseFunctions";
+import BottomBar from "../components/BottomBar";
+import type { RootState } from "../app/store";
 
 const ProfileLayout = () => {
   const userState = useSelector((state: RootState) => state.user);
@@ -13,10 +14,10 @@ const ProfileLayout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const saveData = () => {
+  const saveData = async () => {
     if (!error) {
       dispatch(updateUserData(newUserData));
-      localStorage.setItem("user", JSON.stringify(newUserData));
+      await updateUser(newUserData.id, newUserData);
       navigate(pathname.includes("select-avatar") ? "/profile" : "/");
     }
   };
@@ -42,7 +43,7 @@ const ProfileLayout = () => {
         </Link>
         <button
           className="lg:uppercase lg:bg-[#40424a] rounded-md text-sm lg:text-base font-semibold lg:py-4 lg:px-7 disabled:bg-opacity-50 hover:bg-[#4f515a] transition-all duration-[400ms] transform"
-          disabled={error || newUserData.name === ""}
+          disabled={error || newUserData.profile.name === ""}
           onClick={saveData}
         >
           {pathname.includes("select-avatar") ? "Cancel" : "Done"}

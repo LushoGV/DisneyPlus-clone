@@ -11,9 +11,10 @@ interface Props {
   title: string;
   movies: IMovie[];
   id: number;
+  special?:boolean;
 }
 
-const MovieSlider = ({ title, movies, id }: Props) => {
+const MovieSlider = ({ title, movies, id, special }: Props) => {
   const [sliderCount, setSliderCount] = useState<number>(0);
   const [content, setContent] = useState<IMovie[]>();
 
@@ -73,6 +74,7 @@ const MovieSlider = ({ title, movies, id }: Props) => {
               <div key={index}>
                 <SwiperSlide key={element.id}>
                   <MovieCard
+                    special={special}
                     type="slider"
                     imageMobile={element.poster_path}
                     imageLG={element.backdrop_path}

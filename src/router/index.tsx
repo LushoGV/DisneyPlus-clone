@@ -15,24 +15,31 @@ import AuthLayout from "../layout/AuthLayout";
 import AuthForm from "../pages/auth/AuthForm";
 import AuthGuard from "../guards/AuthGuard";
 import Trailer from "../components/Trailer";
+import { AuthHomePage } from "../pages/auth/AuthHomePage";
 
 const router = createBrowserRouter([
   {
     path: "/auth",
-    element: <AuthLayout />,
     children: [
       {
-        path: "/auth/:section",
-        element: <AuthForm />,
+        index: true,
+        element: <AuthHomePage/>,
       },
-    ],
+      {
+        element: <AuthLayout />,
+        children: [    
+          {
+            path: "/auth/:section",
+            element: <AuthForm />,
+          },
+        ],
+      }
+    ]
   },
   {
     path: "/",
     element: <AuthGuard />,
-    children: [
-      {
-        path: "/",
+    children: [{
         element: <Layout />,
         children: [
           {
