@@ -23,6 +23,7 @@ const Slider = ({ content }: Props) => {
         <Swiper
           modules={[Pagination, Autoplay, Navigation]}
           loop
+          watchSlidesProgress
           autoplay={{
             delay: 3000,
             disableOnInteraction: false,

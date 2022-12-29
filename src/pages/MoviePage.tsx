@@ -4,64 +4,82 @@ import { RiAddLine, RiFilmFill } from "react-icons/ri";
 import { HiUserGroup } from "react-icons/hi";
 import { MdDownload } from "react-icons/md";
 import { BsCheck2 } from "react-icons/bs";
-import axios from "axios";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { IMovie, iMoviePage } from "../interfaces";
 import { toHoursAndMinutes } from "../utils/dateParse";
-import Tabs from "../components/Tabs";
-import type { RootState } from "../app/store";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart, removeToCart } from "../features/user/userSlice";
 import { filterData } from "../utils/Filter";
 import { iUserState } from "../features/user/userSlice";
 import { updateCart } from "../utils/FirebaseFunctions";
+import type { RootState } from "../app/store";
+import Tabs from "../components/Tabs";
+import axios from "axios";
+import Loader from "../components/Loader";
 
 const MoviePage = () => {
   const [cart, setCart] = useState<number[]>([]);
   const [data, setData] = useState<iMoviePage>();
+  const [loading, setLoading] = useState<boolean>(true);
   const [recommended, setRecommended] = useState<IMovie[]>();
-  const userState:iUserState = useSelector((state: RootState) => state.user);
+  const userState: iUserState = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const { id, type } = useParams();
+  const navigate = useNavigate();
 
   const getData = async () => {
-    const res = await axios.get(`
-      https://api.themoviedb.org/3/${type}/${id}?api_key=779b195bed29319f74d486e3c7b2af1e&language=en-US&video=true&append_to_response=videos,credits
+    try {
+      const res = await axios.get(`
+      https://api.themoviedb.org/3/${type}/${id}?api_key=${
+        import.meta.env.VITE_API_KEY
+      }&language=en-US&video=true&append_to_response=videos,credits
       `);
 
-    const resRecommended = filterData({
-      filter: "recommended",
-      companyCode: res.data.company
-        ? res.data.company
-        : res.data.production_companies.id,
-    });
+      const resRecommended = filterData({
+        filter: "recommended",
+        companyCode: res.data.company
+          ? res.data.company
+          : res.data.production_companies[0].id,
+        id: Number(id),
+        quantity: 8,
+      });
 
-    setData(res.data);
-    setRecommended(resRecommended);
+      setData(res.data);
+      setRecommended(resRecommended);
+      setTimeout(() => setLoading(false), 100);
+    } catch (error) {
+      navigate("/");
+    }
   };
 
   const handleCart = async (movie: string) => {
     if (cart.includes(Number(movie))) {
       dispatch(removeToCart(movie));
-      await updateCart(userState.id, cart.filter((element) => element !== Number(movie)))
+      await updateCart(
+        userState.id,
+        cart.filter((element) => element !== Number(movie))
+      );
       setCart(cart.filter((element) => element !== Number(movie)));
     } else {
       dispatch(addToCart(movie));
-      await updateCart(userState.id, [...cart, Number(movie)])
+      await updateCart(userState.id, [...cart, Number(movie)]);
       setCart([...cart, Number(movie)]);
     }
   };
 
-
   useEffect(() => {
+    setLoading(true);
+    setData(undefined);
     getData();
     setCart(userState.cart);
   }, [id]);
 
+  if (loading) return <Loader type="moviePage" />;
+
   return (
     <>
       <div className="min-h-screen lg:min-h-0 w-full relative pb-12">
-        <div className="w-full h-full absolute top-0 left-0 ">
+        <div className="w-full h-full top-0 left-0 absolute">
           <div
             className={`top-0 left-0 w-full bg-[#1a1d29] h-full lg:fixed z-[0] transition-all duration-300 transform`}
           >
@@ -69,47 +87,49 @@ const MoviePage = () => {
               <img
                 src={`https://image.tmdb.org/t/p/original/${data?.backdrop_path}`}
                 alt=""
-                className="w-full"
+                className="w-full h-[420px] lg:h-full object-cover object-center lg:object-cover"
               />
-              <div className="absolute top-36 lg:top-0 inset-0 bg-bottomCompanyPage lg:bg-movieBack"></div>
+              <div className="absolute top-8 lg:top-0 inset-0 bg-bottomCompanyPage lg:bg-movieBack"></div>
             </div>
           </div>
         </div>
-        <section className="z-10 top-0 relative px-4 lg:px-24 pt-56 lg:pt-20 w-full">
-          <h1 className="text-5xl text-center lg:text-left">
+
+        <section className="z-10 top-0 relative px-4 lg:px-24 pt-[35vh] lg:pt-40 w-full">
+          <h1 className="text-2xl text-center lg:text-left mt-5 sm:mt-0">
             {data?.title || data?.original_name}
           </h1>
-          <span className="w-full flex justify-center lg:justify-start mt-4 lg:mt-7 text-[#888888] lg:text-white text-sm h-5 lg:h-6">
+
+          <span className="w-full flex justify-center lg:justify-start mb-2 mt-4 lg:mt-7 text-[#888888] lg:text-white text-sm h-5 lg:h-6">
             <img src="../add.png" alt="" className="mr-2" />
             <img src="../cc.png" alt="" />
           </span>
-          <span className="w-full flex justify-center lg:justify-start mt-1 lg:mt-2 text-[#888888] lg:text-white text-sm">
+
+          <span className="w-full flex justify-center lg:justify-start mt-1 lg:mt-2 text-[#888888] lg:text-white text-[12px] lg:text-sm text-center">
             <span className="min-w-[32px]">
-              {data?.release_date?.toString().substring(0, 4) ||
-                `${data?.first_air_date
-                  ?.toString()
-                  .substring(0, 4)} - ${data?.last_air_date
-                  ?.toString()
-                  .substring(0, 4)}`}
+              {data?.release_date
+                ? data?.release_date.toString().substring(0, 4)
+                : `${data?.first_air_date
+                    ?.toString()
+                    .substring(0, 4)} - ${data?.last_air_date
+                    ?.toString()
+                    .substring(0, 4)}`}
             </span>
             <span className="mx-1">•</span>
-            {(data && data.status === "Released") ||
-              ("Ended" && data?.runtime && (
-                <>
-                  <span className="min-w-[47px]">
-                    {type === "movie"
-                      ? toHoursAndMinutes(data?.runtime)
-                      : `${data?.seasons && data?.seasons.length} ${
-                          data?.seasons && data?.seasons.length > 1
-                            ? "seasons"
-                            : "season"
-                        }`}
-                  </span>
-                  <span className="mx-1">•</span>
-                </>
-              ))}
-
-            <ul className="flex flex-wrap max-w-[230px] lg:max-w-none max-h-[20px] mb-3">
+            {data?.status === ("Released" || "Ended") && data?.runtime && (
+              <>
+                <span className="min-w-[47px]">
+                  {type === "movie"
+                    ? toHoursAndMinutes(data.runtime)
+                    : `${data?.seasons && data?.seasons.length} ${
+                        data?.seasons && data?.seasons.length > 1
+                          ? "seasons"
+                          : "season"
+                      }`}
+                </span>
+                <span className="mx-1">•</span>
+              </>
+            )}
+            <ul className="flex flex-wrap max-w-[300px] lg:max-w-none max-h-[20px] mb-3">
               {data?.genres &&
                 data?.genres.map((element, index) => {
                   return (
@@ -121,8 +141,9 @@ const MoviePage = () => {
                 })}
             </ul>
           </span>
+
           <div className="max-w-[874px]">
-            <div className="flex items-center justify-center lg:justify-start flex-wrap lg:flex-row mt-4 lg:mt-6">
+            <div className="flex items-center justify-center lg:justify-start flex-wrap lg:flex-row mt-4 lg:my-6">
               <button className="flex items-center uppercase py-[10px] lg:py-[14px] px-8 bg-white hover:bg-opacity-75 text-black transition-all duration-[400ms] transform rounded-[5px] text-lg w-full lg:w-auto justify-center mb-4 lg:mb-0">
                 <FaPlay className="mr-4 text-base" />
                 play
@@ -180,8 +201,9 @@ const MoviePage = () => {
                 </button>
               )}
             </div>
-            <p className="py-6 lg:py-4 text-lg lg:text-xl">{data?.overview}</p>
+            <p className="py-6 lg:py-2 text-lg lg:text-xl">{data?.overview}</p>
           </div>
+
           {data && recommended && type && (
             <Tabs
               data={data}

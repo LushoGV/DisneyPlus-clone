@@ -18,7 +18,10 @@ const AuthGuard = () => {
         addInitialData({
           id: resUser.id,
           cart: resUser.cart,
-          profile: { name: resUser.profile.name, image: resUser.profile.image },
+          profile: {
+            name: resUser.profile ? resUser.profile.name : resUser.name,
+            image: resUser.profile ? resUser.profile.image : resUser.image,
+          },
         })
       );
     setIsAuth(2);
@@ -36,7 +39,7 @@ const AuthGuard = () => {
 
   if (isAuth === 2) return <Outlet />;
 
-  return <Loader/>;
+  return <Loader type="principal" />;
 };
 
 export default AuthGuard;

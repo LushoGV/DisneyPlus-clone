@@ -54,3 +54,13 @@ export const getCart = async (id: string) => {
     console.log(error);
   }
 };
+
+export const handleFirebaseError = (error:string) => {
+  switch (error){
+    case "auth/email-already-exists":
+        return "The provided email is already in use by an existing user. Each user must have a unique email."
+    
+    default:
+      return `We couldn't log you in. Please check your email and password and try again. If you'd like to reset your password, use "Forgot Password" link below. (Error Code 14).`
+  }
+}

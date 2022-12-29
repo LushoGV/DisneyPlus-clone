@@ -18,7 +18,7 @@ const Tabs = ({ data, recommended, type, trailerLink }: Props) => {
   useEffect(() => {}, [data]);
 
   return (
-    <section className="lg:mt-[56px]">
+    <section className="lg:mt-[56px] min-h-[200px]">
       <header>
         <ul className="uppercase flex justify-between lg:justify-start mb-4 lg:mb-3 border-b-[2px] border-[#f9f9f933] lg:text-xl">
           <li

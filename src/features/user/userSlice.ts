@@ -26,8 +26,15 @@ export const userSlice = createSlice({
     addInitialData: (state, action) => {
       state.id = action.payload.id;
       state.cart = action.payload.cart;
-      state.profile.name = action.payload.profile.name;
-      state.profile.image = action.payload.profile.image;
+
+      if(action.payload.profile){
+        state.profile.name = action.payload.profile.name;
+        state.profile.image = action.payload.profile.image;
+      }else{
+        state.profile.name = action.payload.name;
+        state.profile.image = action.payload.image;
+      }
+
     },
     updateUserData: (state, action) => {
       state.profile.name = action.payload.profile.name;

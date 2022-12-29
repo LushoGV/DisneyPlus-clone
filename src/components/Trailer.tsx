@@ -13,7 +13,7 @@ const Trailer = () => {
     const { data } = await axios.get(`
     https://api.themoviedb.org/3/${
       type === "1" ? "movie" : "tv"
-    }/${id}?api_key=779b195bed29319f74d486e3c7b2af1e&language=en-US
+    }/${id}?api_key=${import.meta.env.VITE_API_KEY}&language=en-US
     `);
     setVideoData(data);
   };

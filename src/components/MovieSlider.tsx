@@ -11,7 +11,7 @@ interface Props {
   title: string;
   movies: IMovie[];
   id: number;
-  special?:boolean;
+  special?: boolean;
 }
 
 const MovieSlider = ({ title, movies, id, special }: Props) => {
@@ -21,7 +21,7 @@ const MovieSlider = ({ title, movies, id, special }: Props) => {
   useEffect(() => {
     setContent(
       movies.filter(
-        (element:any) =>
+        (element: any) =>
           element.backdrop_path !== null && element.poster_path !== null
       )
     );
@@ -29,15 +29,13 @@ const MovieSlider = ({ title, movies, id, special }: Props) => {
 
   return (
     <section className={`swiper${id}`}>
-      <h2 className="mb-3 mt-6 lg:px-4 font-bold text-slate-200 lg:text-xl">
+      <h2 className="mb-3 mt-6 lg:px-3 font-bold text-slate-200 lg:text-xl">
         {title}
       </h2>
       <div className={`movie-slider relative`}>
         <Swiper
           modules={[Pagination, Navigation]}
-          slidesPerView={2}
-          slidesPerGroup={1}
-          centeredSlides
+          watchSlidesProgress
           navigation={{
             nextEl: `#swiper-button-next-${id}`,
             prevEl: `#swiper-button-prev-${id}`,
@@ -48,23 +46,19 @@ const MovieSlider = ({ title, movies, id, special }: Props) => {
             100: {
               slidesPerView: 3,
               slidesPerGroup: 3,
-              centeredSlides: false,
             },
             1032: {
               slidesPerView: 4,
               slidesPerGroup: 4,
-              centeredSlides: false,
             },
             1400: {
               slidesPerView: 5,
               slidesPerGroup: 5,
               spaceBetween: 10,
-              centeredSlides: false,
             },
             1500: {
               slidesPerView: 5,
               slidesPerGroup: 5,
-              centeredSlides: false,
               spaceBetween: 10,
             },
           }}
@@ -79,7 +73,7 @@ const MovieSlider = ({ title, movies, id, special }: Props) => {
                     imageMobile={element.poster_path}
                     imageLG={element.backdrop_path}
                     id={element.id}
-                    typeLink = { element.first_air_date ? "tv" : "movie"}              
+                    typeLink={element.first_air_date ? "tv" : "movie"}
                   />
                 </SwiperSlide>
               </div>
@@ -88,7 +82,7 @@ const MovieSlider = ({ title, movies, id, special }: Props) => {
         <div
           id={`swiper-button-prev-${id}`}
           onClick={() => setSliderCount(sliderCount - 1)}
-          className={`.swiper-button-prev swiper-button-prev-${id} hidden ${
+          className={`swiper-button-prev swiper-button-prev-${id} hidden ${
             sliderCount ? "lg:flex" : "lg:hidden"
           } items-center justify-center text-white h-full absolute cursor-pointer w-20 top-0 left-[-80px] z-20 text-4xl`}
         >
@@ -97,7 +91,7 @@ const MovieSlider = ({ title, movies, id, special }: Props) => {
         <div
           id={`swiper-button-next-${id}`}
           onClick={() => setSliderCount(sliderCount + 1)}
-          className={`.swiper-button-next swiper-button-next-${id} w-20 rounded-sm bg-gray-900 bg-opacity-80 hidden lg:flex items-center justify-center text-white h-full absolute top-0 right-[-80px] z-20 hover:transition-opacity cursor-pointer text-4xl`}
+          className={`swiper-button-next swiper-button-next-${id} opacity-0 w-20 rounded-sm hidden lg:flex items-center justify-center text-white h-full absolute top-0 right-[-80px] z-30 hover:transition-opacity hover:opacity-100 cursor-pointer text-4xl transition-all duration-200 transform`}
         >
           <IoIosArrowForward className="arrow-next hover:opacity-100 cursor-pointer opacity-0 hover:transition-opacity" />
         </div>

@@ -49,13 +49,15 @@ const CategoryPage = () => {
       setData(
         filterData({
           type: pathname.substring(1),
+          quantity: 22,
           filter: optionSelected.title.toLowerCase().includes("a-z")
             ? "a-z"
-            : optionSelected.title.toLowerCase(),
-        })
+            : optionSelected.title.toLowerCase(),      
+        })  
       );
+      setLoading(false);
     }, 500);
-    setLoading(false);
+    
   }, [optionSelected]);
 
   return (
@@ -99,7 +101,8 @@ const CategoryPage = () => {
       </header>
       <div className="bg-[#1a1d29] w-full absolute top-0 h-full"></div>
       <section className="px-4 lg:px-20 mt-[120px]">
-        {data && <Grid content={data} />}
+        {data && !loading && <Grid content={data} />}
+        {loading && <Loader type="categories"/>}
       </section>
     </>
   );

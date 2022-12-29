@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { IMovie, iSlider } from "../interfaces";
 import { bigSliderData } from "../api/bigSliderData";
 import { filterData } from "../utils/Filter";
+import Loader from "../components/Loader";
 
 interface iData {
   title: string;
@@ -15,21 +16,9 @@ interface iData {
 
 const HomePage = () => {
   const [data, setData] = useState<iData[]>();
+  const [loading, setLoading] = useState<boolean>(true);
 
   const getData = async () => {
-    // const res1 = await axios.get(
-    //   "https://api.themoviedb.org/3/discover/movie?api_key=779b195bed29319f74d486e3c7b2af1e&language=en-US&language=en-US&sort_by=popularity.desc&with_companies=3"
-    // );
-    // const res2 = await axios.get(
-    //   "https://api.themoviedb.org/3/discover/movie?api_key=779b195bed29319f74d486e3c7b2af1e&language=en-US&language=en-US&sort_by=popularity.desc&genre=35&with_companies=2"
-    // );
-    // const res3 = await axios.get(
-    //   "https://api.themoviedb.org/3/discover/movie?api_key=779b195bed29319f74d486e3c7b2af1e&language=en-US&language=en-US&sort_by=popularity.desc&with_companies=1|420"
-    // );
-    // const res4 = await axios.get(
-    //   "https://api.themoviedb.org/3/tv/popular?api_key=779b195bed29319f74d486e3c7b2af1e&language=en-US&page=1&with_companies=3"
-    // );
-
     setData([
       {
         title: "New to Disney+",
@@ -60,9 +49,13 @@ const HomePage = () => {
         content: filterData({ companyCode: "1" }),
       },
     ]);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000000);
   };
 
   useEffect(() => {
+    setLoading(true);
     getData();
   }, []);
 
@@ -98,12 +91,13 @@ const HomePage = () => {
               <MovieSlider
                 title={element.title}
                 movies={element.content}
-                special = {index === 2}
+                special={index === 2}
                 id={index}
               />
             </div>
           ))}
       </section>
+      {/* {loading && <section className="absolute z-50 top-0 left-0 w-full"><Loader type="principal"/></section>} */}
     </>
   );
 };

@@ -1,6 +1,10 @@
-const Footer = () => {
+interface Props {
+  activeMobile?: boolean
+}
+
+const Footer = ({activeMobile}:Props) => {
   return (
-    <footer className="hidden lg:block w-full py-5 text-xs bg-[#0e0b14] z-10 relative">
+    <footer className={`${activeMobile ? "bg-[#040814]" : "hidden lg:block bg-[#0e0b14]"} text-[#c0c0c0] w-full py-5 text-xs z-10 relative`}>
       <section className="flex flex-col items-center justify-center m-auto text-center px-4 md:px-0 ">
         <img
           src="https://static-assets.bamgrid.com/product/disneyplus/images/logo.1a56f51c764022ee769c91d894d44326.svg"

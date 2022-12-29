@@ -5,9 +5,10 @@ interface params {
   companyCode?: string;
   filter?: string;
   id?: number;
+  quantity?: number
 }
 
-export const filterData = ({ type, companyCode, filter, id }: params) => {
+export const filterData = ({ type, companyCode, filter, id, quantity }: params) => {
   let data = movies.filter(
     (element) => element.backdrop_path !== null && element.poster_path !== null
   );
@@ -21,7 +22,7 @@ export const filterData = ({ type, companyCode, filter, id }: params) => {
   }
 
   if (companyCode) {
-    data = data.filter((element) => element.company === companyCode);
+    data = data.filter((element) => element.company === (companyCode.toString()));
   }
 
   if (filter) {
@@ -81,7 +82,7 @@ export const filterData = ({ type, companyCode, filter, id }: params) => {
         break;
 
       case "recommended":
-        id && data.filter((element) => element.id !== id);
+        data = data.filter((element) => element.id !== id).sort(()=> Math.random() - 0.5)
         break;
 
       case "featured":
@@ -120,5 +121,5 @@ export const filterData = ({ type, companyCode, filter, id }: params) => {
     }
   }
 
-  return data.slice(0, 22);
+  return quantity && quantity <= data.length ? data.slice(0, quantity) : data.slice(0, 16);
 };
