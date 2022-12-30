@@ -39,6 +39,12 @@
     animation: opacity-animation 1.5s;
 }
 
+.animation-translate{
+    opacity: 0;
+    animation: translate-animation 500ms;
+    opacity: 1;
+}
+
 .profile:hover .title{
     display: block;
 }

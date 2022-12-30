@@ -24,10 +24,6 @@ export enum OriginCountry {
   Us = "US",
 }
 
-export enum OriginalLanguage {
-  En = "en",
-}
-
 export interface iMovieCard {
   adult: boolean;
   backdrop_path: string;
@@ -53,76 +49,135 @@ export interface iSlider {
 }
 
 export interface iMoviePage {
-  adult: boolean;
-  backdrop_path: string;
-  belongs_to_collection: BelongsToCollection;
-  budget: number;
-  genres?: Genre[];
-  homepage: string;
-  id: number;
-  imdb_id: string;
-  original_language: OriginalLanguage;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  production_companies: ProductionCompany[];
-  production_countries: ProductionCountry[];
-  release_date: Date;
-  revenue: number;
-  runtime: number;
-  spoken_languages: SpokenLanguage[];
-  status: string;
-  tagline: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-  videos: Videos;
-  credits: Credits;
-  created_by: any[];
-  episode_run_time: any[];
-  first_air_date: Date;
-  in_production: boolean;
-  languages: string[];
-  last_air_date: Date;
-  last_episode_to_air: LastEpisodeToAir;
-  name: string;
-  next_episode_to_air: null;
-  networks: Network[];
-  number_of_episodes: number;
-  number_of_seasons: number;
-  origin_country: string[];
+  adult:                 boolean;
+  backdrop_path:         string;
+  belongs_to_collection: null;
+  budget:                number;
+  genres:                Genre[];
+  homepage:              string;
+  id:                    number;
+  imdb_id:               string;
+  original_language:     OriginalLanguage;
+  original_title:        string;
+  overview:              string;
+  popularity:            number;
+  poster_path:           string;
+  production_companies:  ProductionCompany[];
+  production_countries:  ProductionCountry[];
+  release_date:          Date;
+  revenue:               number;
+  runtime:               number;
+  spoken_languages:      SpokenLanguage[];
+  status:                string;
+  tagline:               string;
+  title:                 string;
+  video:                 boolean;
+  vote_average:          number;
+  vote_count:            number;
+  videos:                Videos;
+  content_ratings:      ContentRatings;
+  release_dates:         ReleaseDates;
+  credits:               Credits;
   original_name: string;
+  last_air_date: Date;
+  first_air_date: Date;
   seasons: Season[];
-  type: string;
-  genre_ids: number[];
+  created_by: any[];
+}
+
+export interface ContentRatings {
+  results: ContentRatingsResult[];
+}
+
+export interface ContentRatingsResult {
+  iso_3166_1: string;
+  rating:     string;
+}
+
+export interface CreatedBy {
+  id:           number;
+  credit_id:    string;
+  name:         string;
+  gender:       number;
+  profile_path: null;
+}
+
+export enum Department {
+  Art = "Art",
+  Crew = "Crew",
+  Production = "Production",
+  Sound = "Sound",
+}
+
+export interface Cast {
+  adult:                boolean;
+  gender:               number;
+  id:                   number;
+  known_for_department: string;
+  name:                 string;
+  original_name:        string;
+  popularity:           number;
+  profile_path:         null | string;
+  cast_id?:             number;
+  character?:           string;
+  credit_id:            string;
+  order?:               number;
+  department?:          Department;
+  job?:                 string;
+}
+
+export interface Genre {
+  id:   number;
+  name: string;
+}
+
+export enum OriginalLanguage {
+  Empty = "",
+  En = "en",
+  Es = "es",
+  Fr = "fr",
+}
+
+export interface ProductionCompany {
+  id:             number;
+  logo_path:      string;
+  name:           string;
+  origin_country: string;
+}
+
+export interface ReleaseDates {
+  results: ReleaseDatesResult[];
+}
+
+export interface ReleaseDatesResult {
+  iso_3166_1:    string;
+  release_dates: ReleaseDate[];
+}
+
+export interface ReleaseDate {
+  certification: string;
+  iso_639_1:     string | null;
+  release_date:  Date;
+  type:          number;
+  note?:         string;
+}
+
+export interface VideosResult {
+  iso_639_1:    string;
+  iso_3166_1:   string;
+  name:         string;
+  key:          string;
+  published_at: Date;
+  site:         string;
+  size:         number;
+  type:         string;
+  official:     boolean;
+  id:           string;
 }
 
 export interface Credits {
   cast: Cast[];
   crew: Cast[];
-}
-
-export interface Cast {
-  adult: boolean;
-  gender: number;
-  id: number;
-  known_for_department: string;
-  name: string;
-  original_name: string;
-  popularity: number;
-  profile_path: null | string;
-  character?: string;
-  credit_id: string;
-  order?: number;
-  department?: string;
-  job?: string;
-}
-
-export interface Genre {
-  id: number;
-  name: string;
 }
 
 export interface LastEpisodeToAir {
@@ -153,12 +208,12 @@ export interface ProductionCountry {
 }
 
 export interface Season {
-  air_date: Date;
+  air_date: Date | null;
   episode_count: number;
   id: number;
   name: string;
   overview: string;
-  poster_path: string;
+  poster_path: string | null;
   season_number: number;
 }
 
@@ -192,41 +247,15 @@ export interface BelongsToCollection {
   backdrop_path: string;
 }
 
-export interface Cast {
-  adult: boolean;
-  gender: number;
-  id: number;
-  known_for_department: string;
-  name: string;
-  original_name: string;
-  popularity: number;
-  profile_path: null | string;
-  cast_id?: number;
-  character?: string;
-  credit_id: string;
-  order?: number;
-  department?: string;
-  job?: string;
-}
-
-export interface Genre {
-  id: number;
-  name: string;
-}
-
 export interface ProductionCompany {
   id: number;
-  logo_path: null | string;
+  logo_path: string;
   name: string;
   origin_country: string;
 }
 
 export enum ISO3166_1 {
   Us = "US",
-}
-
-export interface Videos {
-  results: Result[];
 }
 
 export interface Result {

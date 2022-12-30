@@ -81,7 +81,7 @@ const SearchPage = () => {
             to={"/movies"}
             className="w-full h-full flex flex-col justify-center items-center"
           >
-            <img src="./movie-icon.svg" className="w-[32px] h-[32px] mb-1" />
+            <img src="./movie-icon.svg" className="w-[32px] h-[32px] mb-1" alt="movie-ico" />
             <span className="text-[#797979]">Movies</span>
           </Link>
         </div>
@@ -90,7 +90,7 @@ const SearchPage = () => {
             to={"/series"}
             className="w-full h-full flex flex-col justify-center items-center"
           >
-            <img src="../series-icon.svg" className="w-[32px] h-[32px] mb-1" />
+            <img src="../series-icon.svg" className="w-[32px] h-[32px] mb-1" alt="series-ico" />
             <span className="text-[#888888]">Series</span>
           </Link>
         </div>

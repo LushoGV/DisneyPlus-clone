@@ -11,8 +11,8 @@ interface Props {
     id: number;
     backdrop_path: string;
     logo: string;
-    imageMobile: string
-    type: string
+    imageMobile: string;
+    type: string;
   }[];
 }
 

@@ -32,7 +32,7 @@ const MoviePage = () => {
       const res = await axios.get(`
       https://api.themoviedb.org/3/${type}/${id}?api_key=${
         import.meta.env.VITE_API_KEY
-      }&language=en-US&video=true&append_to_response=videos,credits
+      }&language=en-US&video=true&append_to_response=videos,credits,${type === "movie" ? "release_dates" : "content_ratings"}
       `);
 
       const resRecommended = filterData({
@@ -83,7 +83,7 @@ const MoviePage = () => {
           <div
             className={`top-0 left-0 w-full bg-[#1a1d29] h-full lg:fixed z-[0] transition-all duration-300 transform`}
           >
-            <div className={`relative`}>
+            <div className="relative animation-opacity transition-all duration-[10ms]">
               <img
                 src={`https://image.tmdb.org/t/p/original/${data?.backdrop_path}`}
                 alt=""
@@ -94,17 +94,17 @@ const MoviePage = () => {
           </div>
         </div>
 
-        <section className="z-10 top-0 relative px-4 lg:px-24 pt-[35vh] lg:pt-40 w-full">
+        <section className="z-10 top-0 relative px-4 lg:px-24 pt-[35vh] lg:pt-40 w-full animation-opacity transition-all duration-[10ms]">
           <h1 className="text-2xl text-center lg:text-left mt-5 sm:mt-0">
             {data?.title || data?.original_name}
           </h1>
 
-          <span className="w-full flex justify-center lg:justify-start mb-2 mt-4 lg:mt-7 text-[#888888] lg:text-white text-sm h-5 lg:h-6">
+          <span className="w-full flex justify-center lg:justify-start mb-2 mt-4 lg:mt-7 text-[#888888] lg:text-white text-sm h-5 lg:h-6 animation-opacity transition-all duration-[10ms]">
             <img src="../add.png" alt="" className="mr-2" />
             <img src="../cc.png" alt="" />
           </span>
 
-          <span className="w-full flex justify-center lg:justify-start mt-1 lg:mt-2 text-[#888888] lg:text-white text-[12px] lg:text-sm text-center">
+          <span className="w-full flex justify-center lg:justify-start mt-1 lg:mt-2 text-[#888888] lg:text-white text-[12px] lg:text-sm text-center animation-opacity transition-all duration-[10ms]">
             <span className="min-w-[32px]">
               {data?.release_date
                 ? data?.release_date.toString().substring(0, 4)
@@ -142,7 +142,7 @@ const MoviePage = () => {
             </ul>
           </span>
 
-          <div className="max-w-[874px]">
+          <div className="max-w-[874px] animation-opacity transition-all duration-[10ms]">
             <div className="flex items-center justify-center lg:justify-start flex-wrap lg:flex-row mt-4 lg:my-6">
               <button className="flex items-center uppercase py-[10px] lg:py-[14px] px-8 bg-white hover:bg-opacity-75 text-black transition-all duration-[400ms] transform rounded-[5px] text-lg w-full lg:w-auto justify-center mb-4 lg:mb-0">
                 <FaPlay className="mr-4 text-base" />

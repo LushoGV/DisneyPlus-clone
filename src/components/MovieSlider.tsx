@@ -28,7 +28,7 @@ const MovieSlider = ({ title, movies, id, special }: Props) => {
   }, [movies]);
 
   return (
-    <section className={`swiper${id}`}>
+    <section className={`swiper${id} animation-opacity transition-all duration-[10ms]`}>
       <h2 className="mb-3 mt-6 lg:px-3 font-bold text-slate-200 lg:text-xl">
         {title}
       </h2>

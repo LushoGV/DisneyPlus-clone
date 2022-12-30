@@ -18,3 +18,20 @@ body{
         opacity: 1;
     }
 }
+
+@keyframes translate-animation {
+    0%{
+        opacity: 0;
+        transform: translateX(+100%);
+    }
+    50%{
+        opacity: 0;
+    }
+    99%{
+      opacity: 1;
+    }
+    100%{
+        
+        transform: translateX(0%);
+    }
+}

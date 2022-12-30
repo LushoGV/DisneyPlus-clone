@@ -92,21 +92,22 @@ const AuthForm = () => {
   };
 
   useEffect(()=>{
+    setInputContent({...inputContent, email: "", password: ""})
     setError(false)
     setSteps(0)
-  },[])
+  },[section])
 
   return (
     <>
       {steps === 0 ? (
-        <section className={`w-full max-w-sm m-auto mt-10`}>
+        <section className="w-full max-w-sm m-auto mt-10 animation-opacity transition-all">
           {section === "signUp" && (
             <span className="uppercase text-[#f9f9f98a] text-xs">
               step {steps + 1} of 2
             </span>
           )}
 
-          <form className=" mt-1 w-full" onSubmit={(e) => nextStep(e)}>
+          <form className="mt-1 w-full" onSubmit={(e) => nextStep(e)}>
             <h2 className="pb-3 text-2xl font-semibold">
               {section === "signUp"
                 ? "Enter your email"
@@ -160,10 +161,11 @@ const AuthForm = () => {
             </span>
           </div>
           <button
-            className="bg-[#ffff] text-[#2b2b2b] py-3 pl-4 w-full rounded-[2px] my-4 uppercase font-semibold cursor-pointer hover:bg-[#ebebeb]"
+            className="bg-[#ffff] text-[#2b2b2b] py-3 pl-4 w-full rounded-[2px] mt-[18px] mb-4 font-semibold cursor-pointer hover:bg-[#ebebeb] flex"
             onClick={handleGoogleAuth}
           >
-            Sign in with Google
+            <img src="/google-icon.png" alt="google-icon" className="w-7 m-auto mr-3"/>
+            <span className="m-auto ml-0 text-slate-700">Sign in with Google</span>          
           </button>
           {section === "login" && (
             <>
@@ -179,7 +181,7 @@ const AuthForm = () => {
         </section>
       ) : (
         <>
-          <section className=" w-full max-w-sm m-auto mt-10">
+          <section className="w-full max-w-sm m-auto mt-10 animation-translate transition-all">
             {section === "signUp" && (
               <span className="uppercase text-[#f9f9f98a] text-xs">
                 step {steps + 1} of 2

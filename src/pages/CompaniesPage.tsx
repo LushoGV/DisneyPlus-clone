@@ -104,7 +104,7 @@ const CompaniesPage = () => {
             <div
               className={`${ChangeBackground ? "block" : "lg:hidden"} relative`}
             >
-              <img src={background.image} alt="" className="w-full" />
+              <img src={background.image} alt="" className="w-full transition-all duration-[100ms]" />
               <div className="absolute inset-0 bg-bottomCompanyPage"></div>
             </div>
           </div>

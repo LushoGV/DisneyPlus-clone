@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { IMovie, iMoviePage } from "../interfaces";
 import { toHoursAndMinutes } from "../utils/dateParse";
 import { Link } from "react-router-dom";
@@ -15,7 +15,27 @@ interface Props {
 const Tabs = ({ data, recommended, type, trailerLink }: Props) => {
   const [sectionMode, setSectionMode] = useState<number>(1);
 
-  useEffect(() => {}, [data]);
+  const getCertification = () => {
+    const certificationA = [ "G","TV-G","TV-Y"]
+    const certificationB = ["PG", "TV-PG", "TV-Y7"]
+    const certificationC = ["NC-17", "TV-MA", "NR"]
+    const certificationD = ["PG-13", "TV-14"]
+
+    let certification:any = type === "movie" ? data.release_dates.results.find(element => element.iso_3166_1 === 'US') : data.content_ratings.results.find(element => element.iso_3166_1 === 'US') 
+    certification = type === "movie" ? certification.release_dates[0].certification : certification.rating
+    
+    if(certificationA.includes(certification)){
+      return "+0"
+    }else if(certificationB.includes(certification)){
+      return "+7"
+    }else if(certificationC.includes(certification)){
+      return "+17"
+    }else if(certificationD.includes(certification)){
+      return "+13"
+    }else{
+      return "+13"
+    }
+  }
 
   return (
     <section className="lg:mt-[56px] min-h-[200px]">
@@ -23,7 +43,9 @@ const Tabs = ({ data, recommended, type, trailerLink }: Props) => {
         <ul className="uppercase flex justify-between lg:justify-start mb-4 lg:mb-3 border-b-[2px] border-[#f9f9f933] lg:text-xl">
           <li
             className={`pb-1 lg:pb-4 border-b-[4px] border-white ${
-              sectionMode === 1 ? "border-opacity-100" : "border-opacity-0"
+              sectionMode === 1
+                ? "border-opacity-100 text-white"
+                : "border-opacity-0 text-[#cacaca]"
             } hover:border-opacity-100 cursor-pointer ${
               data?.videos.results.length === 0 && "lg:mr-8"
             }`}
@@ -34,7 +56,9 @@ const Tabs = ({ data, recommended, type, trailerLink }: Props) => {
           {data?.videos.results.length > 0 && (
             <li
               className={`pb-1 lg:pb-4 border-b-[4px] border-white ${
-                sectionMode === 2 ? "border-opacity-100" : "border-opacity-0"
+                sectionMode === 2
+                  ? "border-opacity-100 text-white"
+                  : "border-opacity-0 text-[#cacaca]"
               } hover:border-opacity-100 cursor-pointer lg:mx-8`}
               onClick={() => setSectionMode(2)}
             >
@@ -43,7 +67,9 @@ const Tabs = ({ data, recommended, type, trailerLink }: Props) => {
           )}
           <li
             className={`pb-1 lg:pb-4 border-b-[4px] border-white ${
-              sectionMode === 3 ? "border-opacity-100" : "border-opacity-0"
+              sectionMode === 3
+                ? "border-opacity-100 text-white"
+                : "border-opacity-0 text-[#cacaca]"
             } hover:border-opacity-100 cursor-pointer mr-5`}
             onClick={() => setSectionMode(3)}
           >
@@ -80,7 +106,7 @@ const Tabs = ({ data, recommended, type, trailerLink }: Props) => {
             <div className="grid grid-cols-1 md:grid-cols-2 pt-2 w-full mt-3 lg:mt-[90px] lg:pl-3">
               <ul className="text-base lg:text-sm lg:pr-10">
                 <li className="mb-3 flex flex-col">
-                  <span className="text-[#888888]">Duration:</span>
+                  <span className="text-[#cacaca]">Duration:</span>
                   {data && (
                     <span className="py-[1px]">
                       {type === "movie"
@@ -92,7 +118,7 @@ const Tabs = ({ data, recommended, type, trailerLink }: Props) => {
                   )}
                 </li>
                 <li className="mb-3 flex flex-col">
-                  <span className="text-[#888888]">Release Date:</span>
+                  <span className="text-[#cacaca]">Release Date:</span>
                   <span className="py-[1px]">
                     {data?.release_date?.toString().substring(0, 4) ||
                       `${data?.first_air_date
@@ -103,7 +129,7 @@ const Tabs = ({ data, recommended, type, trailerLink }: Props) => {
                   </span>
                 </li>
                 <li className="mb-3 flex flex-col">
-                  <span className="text-[#888888]">Genre:</span>
+                  <span className="text-[#cacaca]">Genre:</span>
                   <div className="py-[1px]">
                     {data?.genres &&
                       data?.genres.map((element, index) => {
@@ -116,30 +142,29 @@ const Tabs = ({ data, recommended, type, trailerLink }: Props) => {
                   </div>
                 </li>
                 <li className="mb-3 flex flex-col items-start">
-                  <span className="text-[#888888]">Rating:</span>
+                  <span className="text-[#cacaca]">Rating:</span>
                   <span className="py-[2px] bg-[#31343e] px-1  mt-1 rounded-[3px]">
-                    10+
+                    {getCertification()}
                   </span>
                 </li>
               </ul>
               <ul className="text-base lg:text-sm">
                 <li className="mb-3 flex flex-col">
-                  <p className="text-[#888888]">Director:</p>
+                  <p className="text-[#cacaca]">Director:</p>
                   <ul className="text-sm py-[1px]">
-                    {data &&
+                    {data.created_by ? (
+                      <li>{data.created_by[0].name}</li>
+                    ) : (
                       data.credits.crew
-                        .filter(
-                          (element: any) =>
-                            element.job === "Director" ||
-                            element.job === "Producer"
-                        )
+                        .filter((element: any) => element.job === "Director")
                         .map((element, index) => (
                           <li key={index}>{element.name}</li>
-                        ))}
+                        ))
+                    )}
                   </ul>
                 </li>
                 <li className="mb-3">
-                  <p className="text-[#888888]">Starring:</p>
+                  <p className="text-[#cacaca]">Starring:</p>
                   {data?.credits.cast.slice(0, 5).map((element, index) => {
                     return (
                       <p className="py-[1px]" key={index}>
