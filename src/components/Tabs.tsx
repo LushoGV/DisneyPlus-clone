@@ -15,10 +15,6 @@ interface Props {
 const Tabs = ({ data, recommended, type, trailerLink }: Props) => {
   const [sectionMode, setSectionMode] = useState<number>(1);
 
-  console.log(data)
-  console.log(type)
-
-
   const getCertification = () => {
     const certificationA = [ "G","TV-G","TV-Y"]
     const certificationB = ["PG", "TV-PG", "TV-Y7"]
