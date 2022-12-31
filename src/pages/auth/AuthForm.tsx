@@ -1,10 +1,15 @@
-import {createUserWithEmailAndPassword, signInWithEmailAndPassword,signInWithPopup,} from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
 import { FormEvent, useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { auth, provider } from "../../database/firebase";
 import { addInitialData } from "../../features/user/userSlice";
 import { getUser, handleFirebaseError } from "../../utils/FirebaseFunctions";
+import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 
 const AuthForm = () => {
   const [steps, setSteps] = useState<number>(0);
@@ -13,6 +18,7 @@ const AuthForm = () => {
   const [inputContent, setInputContent] = useState({
     email: "",
     password: "",
+    viewPassword: false,
   });
   const { section } = useParams();
   const navigate = useNavigate();
@@ -50,7 +56,7 @@ const AuthForm = () => {
         setLoading(false);
         navigate("/");
       }, 1000);
-    } catch (e:any) {
+    } catch (e: any) {
       setLoading(false);
       setError(handleFirebaseError(e.code));
     }
@@ -91,11 +97,11 @@ const AuthForm = () => {
     }
   };
 
-  useEffect(()=>{
-    setInputContent({...inputContent, email: "", password: ""})
-    setError(false)
-    setSteps(0)
-  },[section])
+  useEffect(() => {
+    setInputContent({ ...inputContent, email: "", password: "", viewPassword: false });
+    setError(false);
+    setSteps(0);
+  }, [section]);
 
   return (
     <>
@@ -164,8 +170,14 @@ const AuthForm = () => {
             className="bg-[#ffff] text-[#2b2b2b] py-3 pl-4 w-full rounded-[2px] mt-[18px] mb-4 font-semibold cursor-pointer hover:bg-[#ebebeb] flex"
             onClick={handleGoogleAuth}
           >
-            <img src="/google-icon.png" alt="google-icon" className="w-7 m-auto mr-3"/>
-            <span className="m-auto ml-0 text-slate-700">Sign in with Google</span>          
+            <img
+              src="/google-icon.png"
+              alt="google-icon"
+              className="w-7 m-auto mr-3"
+            />
+            <span className="m-auto ml-0 text-slate-700">
+              Sign in with Google
+            </span>
           </button>
           {section === "login" && (
             <>
@@ -198,18 +210,40 @@ const AuthForm = () => {
                   ? "You will use this email and password to log into your Disney+ account to watch your favorite shows and movies."
                   : "You will use this email and password to log into your Disney+ account to watch your favorite shows and movies."}
               </p>
-              <input
-                type="text"
-                placeholder="Password"
-                name="password"
-                className={`bg-[#fafafa1a] py-3 pl-4 w-full rounded-[2px] mb-1 outline-0 border-[1px] ${
-                  error ? "border-[#ff554c]" : "border-[#fafafa1a]"
-                } focus:border-[#f9f9f94d]`}
-                value={inputContent.password}
-                onChange={(e) =>
-                  setInputContent({ ...inputContent, password: e.target.value })
-                }
-              />
+              <div className="relative flex items-center">
+                <input
+                  type={inputContent.viewPassword ? "text" : "password"}
+                  placeholder="Password"
+                  name="password"
+                  className={`bg-[#fafafa1a] py-3 pl-4 w-full rounded-[2px] mb-1 outline-0 border-[1px] ${
+                    error ? "border-[#ff554c]" : "border-[#fafafa1a]"
+                  } focus:border-[#f9f9f94d]`}
+                  value={inputContent.password}
+                  onChange={(e) =>
+                    setInputContent({
+                      ...inputContent,
+                      password: e.target.value,
+                    })
+                  }
+                />
+                <button
+                  className="absolute right-0 px-5 pb-1 text-lg"
+                  onClick={(e) => {
+                    e.preventDefault(),
+                      setInputContent({
+                        ...inputContent,
+                        viewPassword: !inputContent.viewPassword,
+                      });
+                  }}
+                >
+                  {inputContent.viewPassword ? (
+                    <BsEyeFill />
+                  ) : (
+                    <BsEyeSlashFill />
+                  )}
+                </button>
+              </div>
+
               {error && (
                 <p className="text-[#ff554c] text-xs mt-1 mb-2">{error}</p>
               )}
@@ -222,7 +256,9 @@ const AuthForm = () => {
 
               {section === "signUp" && (
                 <div className="mt-5 mb-3 border-l-[2px] border-[#f9f9f9af] px-3">
-                  <p className="text-[#f9f9f98a] text-sm">You'll be using this email to log in:</p>
+                  <p className="text-[#f9f9f98a] text-sm">
+                    You'll be using this email to log in:
+                  </p>
                   <p className="text-lg">{inputContent.email}</p>
                 </div>
               )}

@@ -6,7 +6,7 @@ export const AuthHomePage = () => {
     <>
     <div className='w-full h-screen bg-[#040814] pb-10'>
     <header className='fixed top-0 z-30 w-full flex justify-end px-5 lg:px-0'>
-        <Link to={"/auth/login"} className="uppercase my-3 mr-2 lg:mr-14 px-6 py-3 bg-black bg-opacity-80 border-[1px] border-white rounded-[4px] hover:text-black hover:bg-white hover:bg-opacity-100 transition-all duration-[400ms] transform">log in</Link>
+        <Link to={"/auth/login"} className="hidden lg:block uppercase my-3 mr-14 px-6 py-3 bg-black bg-opacity-80 border-[1px] border-white rounded-[4px] hover:text-black hover:bg-white hover:bg-opacity-100 transition-all duration-[400ms] transform">log in</Link>
     </header>
 
     <section className='relative flex min-h-[75vh] lg:h-screen xs:mb-0 sm:mb-20 lg:mb-0 lg:pb-20'>
@@ -17,10 +17,11 @@ export const AuthHomePage = () => {
         </picture>
         </div>       
     <section className='absolute w-full pt-20 lg:pl-10 flex'>
-        <div className='w-full px-7 lg:w-[45%] mt-[55%] lg:mt-[5%] flex flex-col items-center'>
+        <div className='w-full px-7 lg:w-[45%] mt-[45%] sm:mt-[45%] lg:mt-[5%] flex flex-col items-center'>
         <img src="https://cnbl-cdn.bamgrid.com/assets/7ecc8bcb60ad77193058d63e321bd21cbac2fc67281dbd9927676ea4a4c83594/original" alt="" className='w-[180px] lg:w-[320px]'/>
         <span className='my-5 font-bold text-sm sm:text-lg lg:text-xl'>Enjoy the greatest stories, all in one place. </span>
-        <Link to="/auth/signUp" className='bg-[#6421ff] hover:bg-[#7828ff] uppercase py-[14px] w-full max-w-[360px] rounded-[4px] mt-2 text-center transition-all duration-[400ms] transform'>Sign up now</Link>
+        <Link to="/auth/signUp" className='bg-[#6421ff] hover:bg-[#7828ff] uppercase py-[14px] w-full max-w-[360px] rounded-[4px] mt-[10%] md:mt-2 text-center transition-all duration-[400ms] transform'>Sign up now</Link>
+        <Link to={"/auth/login"} className="lg:hidden mt-2 uppercase py-[14px] w-full max-w-[360px] rounded-[4px] text-center transition-all duration-[400ms] transform bg-[#1f1f1f]">Log In</Link>
         </div>
     </section>
     </section>
