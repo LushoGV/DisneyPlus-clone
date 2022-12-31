@@ -18,7 +18,7 @@ const MovieCard = ({type,title,special,imageMobile,imageLG,id,linkTrailer,logo,t
   if (type === "slider")
     return (
       <Link to={`/${typeLink}/${id}`}>
-        <div className="relative w-auto md:h-auto md:w-[234px] cursor-pointer lg:w-full xl:w-[95%] flex mr-[10px] lg:mx-[10px] rounded-md hover:scale-105 transition duration-[400ms] shadow-disney transform">
+        <div className="relative w-auto md:h-auto md:w-[234px] cursor-pointer lg:w-full xl:w-[95%] flex mr-[5px] lg:mx-[10px] rounded-md hover:scale-105 transition duration-[400ms] shadow-disney transform">
           <div className="absolute z-10 top-0 left-0 w-full h-full rounded-md hover:border-[3px] border-white border-opacity-10 hover:border-opacity-80"></div>
           <div className="bg-gradient-to-tl from-[#1e1f2a] to-[#30323e] rounded-md w-full">
             <picture>
