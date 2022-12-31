@@ -15,6 +15,10 @@ interface Props {
 const Tabs = ({ data, recommended, type, trailerLink }: Props) => {
   const [sectionMode, setSectionMode] = useState<number>(1);
 
+  console.log(data)
+  console.log(type)
+
+
   const getCertification = () => {
     const certificationA = [ "G","TV-G","TV-Y"]
     const certificationB = ["PG", "TV-PG", "TV-Y7"]
@@ -149,10 +153,36 @@ const Tabs = ({ data, recommended, type, trailerLink }: Props) => {
                 </li>
               </ul>
               <ul className="text-base lg:text-sm">
-                <li className="mb-3 flex flex-col">
+                {
+                  data.created_by && data.created_by?.length > 0 && <li className="mb-3 flex flex-col">
                   <p className="text-[#cacaca]">Director:</p>
                   <ul className="text-sm py-[1px]">
-                    {data.created_by ? (
+                    
+                      <li>{data.created_by[0].name}</li>
+                    </ul>
+                    </li>
+                }
+
+                {
+                   <li className="mb-3 flex flex-col">
+                   <p className="text-[#cacaca]">Director:</p>
+                   <ul className="text-sm py-[1px]">
+                     {
+                      data.credits.crew
+                        .filter((element: any) => element.job === "Director")
+                        .map((element, index) => (
+                          <li key={index}>{element.name}</li>
+                        ))
+                      }
+                      
+                     </ul>
+                     </li>
+                }
+
+               {/* { data.created_by?.length > 0 || data.credits?.crew.length > 0 && <li className="mb-3 flex flex-col">
+                  <p className="text-[#cacaca]">Director:</p>
+                  <ul className="text-sm py-[1px]">
+                    {data.created_by?.length > 0 ? (
                       <li>{data.created_by[0].name}</li>
                     ) : (
                       data.credits.crew
@@ -162,7 +192,7 @@ const Tabs = ({ data, recommended, type, trailerLink }: Props) => {
                         ))
                     )}
                   </ul>
-                </li>
+                </li>} */}
                 <li className="mb-3">
                   <p className="text-[#cacaca]">Starring:</p>
                   {data?.credits.cast.slice(0, 5).map((element, index) => {

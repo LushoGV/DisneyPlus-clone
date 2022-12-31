@@ -85,7 +85,7 @@ const MoviePage = () => {
           >
             <div className="relative animation-opacity transition-all duration-[10ms]">
               <img
-                src={`https://image.tmdb.org/t/p/original/${data?.backdrop_path}`}
+                src={`https://image.tmdb.org/t/p/w1280/${data?.backdrop_path}`}
                 alt=""
                 className="w-full h-[420px] lg:h-full object-cover object-center lg:object-cover"
               />
