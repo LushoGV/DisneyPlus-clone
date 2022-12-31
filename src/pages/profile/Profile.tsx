@@ -1,9 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BsPencilFill } from "react-icons/bs";
 import { useUserContext } from "../../context/userContext";
+import { auth } from "../../database/firebase";
+import { signOut } from "firebase/auth";
 
 const Profile = () => {
   const { newUserData, setNewUserData, error, setError } = useUserContext();
+  const navigate = useNavigate()
 
   const changeUsername = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     setError(false);
@@ -16,6 +19,11 @@ const Profile = () => {
     if (target.value === "") {
       setError(true);
     }
+  };
+
+  const logOut = async () => {
+    await signOut(auth);
+    navigate("/auth");
   };
 
   return (
@@ -61,6 +69,9 @@ const Profile = () => {
           profile.
         </p>
       </section>
+      <div className="lg:hidden mx-4 mt-4">
+      <button onClick={logOut} className=" bg-red-500 py-3 w-full rounded-[4px] text-center font-semibold">Log out</button>
+      </div>
     </div>
   );
 };
