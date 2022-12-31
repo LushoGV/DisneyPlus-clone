@@ -13,7 +13,7 @@ const SectionCard = ({ logo, backdrop, link }: Props) => {
       <Link to={link} className="w-full animation-opacity transition-all duration-[10ms]">
         <div className="bg-gradient-to-tl  from-[#1e1f2a] to-[#30323e] rounded-md lg:rounded-lg h-full lg:h-auto w-full">
           <picture className="w-full h-full flex md:block justify-center items-center">
-            {link === "/brand/national-geographic" && <source media="(max-width: 760px)" srcSet="/public/national-geo-mobile-icon.png" />}
+            {link === "/brand/national-geographic" && <source media="(max-width: 760px)" srcSet="/national-geo-mobile-icon.png" />}
           <img className={`absolute w-full md:w-full ${link !== "/brand/national-geographic" && "h-[90%]"} lg:h-auto animation-opacity object-cover lg:object-cover`} src={logo} alt="" />
           </picture>
           <video
