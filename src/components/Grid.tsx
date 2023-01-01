@@ -20,6 +20,7 @@ const Grid = ({ content }: Props) => {
               }
               imageLG={element.backdrop_path}
               imageMobile={element.poster_path}
+              company={element.company}
             />
           </li>
         ))}

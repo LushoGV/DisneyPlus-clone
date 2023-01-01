@@ -13,6 +13,7 @@ interface Props {
     logo: string;
     imageMobile: string;
     type: string;
+    company: string
   }[];
 }
 
@@ -49,6 +50,7 @@ const Slider = ({ content }: Props) => {
                     logo={element.logo}
                     imageMobile={element.imageMobile}
                     typeLink={element.type}
+                    company={element.company}
                   />
                 </SwiperSlide>
               </div>

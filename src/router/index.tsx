@@ -71,13 +71,13 @@ const router = createBrowserRouter([
             element: <CompaniesPage />,
           },
           {
-            path: "/:type/:id",
+            path: "/:type/:id&:company",
             element: <MoviePage />,
           },
         ],
       },
       {
-        path: "/trailer/:id/:trailer/:type",
+        path: "/trailer/:id/:trailer/:type&:company",
         element: <Trailer />,
       },
       {

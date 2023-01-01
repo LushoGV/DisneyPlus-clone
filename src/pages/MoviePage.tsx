@@ -24,7 +24,7 @@ const MoviePage = () => {
   const [recommended, setRecommended] = useState<IMovie[]>();
   const userState: iUserState = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
-  const { id, type } = useParams();
+  const { id, type, company } = useParams();
   const navigate = useNavigate();
 
   const getData = async () => {
@@ -32,14 +32,20 @@ const MoviePage = () => {
       const res = await axios.get(`
       https://api.themoviedb.org/3/${type}/${id}?api_key=${
         import.meta.env.VITE_API_KEY
-      }&language=en-US&video=true&append_to_response=videos,credits,${type === "movie" ? "release_dates" : "content_ratings"}
+      }&language=en-US&video=true&append_to_response=videos,credits,${
+        type === "movie" ? "release_dates" : "content_ratings"
+      }
       `);
+      const resRecommendations = await axios.get(
+        `https://api.themoviedb.org/3/${type}/${id}/recommendations?api_key=${
+          import.meta.env.VITE_API_KEY
+        }`
+      );
 
       const resRecommended = filterData({
         filter: "recommended",
-        companyCode: res.data.company
-          ? res.data.company
-          : res.data.production_companies[0].id,
+        companyCode: company,
+        recommendations: resRecommendations.data.results,
         id: Number(id),
         quantity: 8,
       });
@@ -152,7 +158,7 @@ const MoviePage = () => {
                 <Link
                   to={`/trailer/${id}/${data?.videos.results[0].key}/${
                     type === "movie" ? "1" : "2"
-                  }`}
+                  }&${company}`}
                   className="hidden lg:flex items-center uppercase py-[14px] px-8 bg-black text-white border-[1px] hover:bg-white hover:text-black transition-all duration-[400ms] transform border-white rounded-[5px] text-lg mx-5"
                 >
                   trailer
@@ -180,7 +186,7 @@ const MoviePage = () => {
                 <Link
                   to={`/trailer/${id}/${data?.videos.results[0].key}/${
                     type === "movie" ? "1" : "2"
-                  }`}
+                  }&${company}`}
                   className="flex flex-col items-center lg:hidden mx-3 lg:w-11 lg:h-11 lg:border-[2px] lg:border-white lg:bg-black lg:text-white lg:rounded-full"
                 >
                   <RiFilmFill className="text-[1.6rem]" />
@@ -213,8 +219,8 @@ const MoviePage = () => {
                 data?.videos.results.length > 0
                   ? `/trailer/${id}/${data?.videos.results[0].key}/${
                       type === "movie" ? "1" : "2"
-                    }`
-                  : ""
+                    }&${company}`
+                  : null
               }
             />
           )}

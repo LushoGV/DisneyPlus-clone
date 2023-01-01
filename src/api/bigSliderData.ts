@@ -6,6 +6,7 @@ export const bigSliderData = [
     imageMobile: "wx50OY8waGNFlVIQWtJAYgHzW2B.jpg",
     logo: "https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/857843132A967344CB51C38ED0CE3FE728E6A24434FCCC498BAAFDCCC61990E2/scale?width=800&aspectRatio=1.78&format=png",
     type: "tv",
+    company: "2"
   },
   {
     id: 774752,
@@ -14,6 +15,7 @@ export const bigSliderData = [
     imageMobile: "rpLOGbf71APcL6rJRaGpAOLUDfE.jpg",
     logo: "https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/AE03A01A06CCD2A51071AAF2A35BA07950FC4CA8276D5806ECA7EB16DCEE67D7/scale?width=1440&aspectRatio=3.91&format=png",
     type: "movie",
+    company: "420"
   },
   {
     id: 83867,
@@ -21,7 +23,8 @@ export const bigSliderData = [
       "https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/B7A47F64A7A6534A479C1174900D594FC3DB196F334598D11CCD24944C3E5BA0/compose?width=1440&aspectRatio=3.91&format=jpeg&label=disneyplusoriginal_391",
     imageMobile: "b2FZ4bWlPJn6EemU2Tlu14FaCbg.jpg",
     logo: "https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/6159BEC7E9D9251A8858A111BA940AEF8D821B047C9744B4A6CFD96101F40503/scale?width=1440&aspectRatio=3.91&format=png",
-    type: "movie",
+    type: "tv",
+    company: "1"
   },
   {
     id: 771,
@@ -30,6 +33,7 @@ export const bigSliderData = [
     imageMobile: "qh5ITDiFk7LMDfLiQX0jXD3z0w3.jpg",
     logo: "https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/05D980B877CEFB4321DB18B628C86B4E3A99B06F25FC63AA2BBD33E023E2BCA1/scale?width=1440&aspectRatio=3.91&format=png",
     type: "movie",
+    company: "2"
   },
   {
     id: 568124,
@@ -38,6 +42,7 @@ export const bigSliderData = [
     imageMobile: "4rQPEA0k6EursVxmOEaZsKGlFfB.jpg",
     logo: "https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/34423BA8818238A74F2166D71A7EB066FC41895AB0AE98EBF51DDFC8DF975344/scale?width=1440&aspectRatio=3.91&format=png",
     type: "movie",
+    company: "2"
   },
   {
     id: 76600,
@@ -46,6 +51,7 @@ export const bigSliderData = [
     imageMobile: "2fS9cpar9rzxixwnRptg4bGmIym.jpg",
     logo: "https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/AAF71CCE4E59E9F105942A0E253FEFC75181EBD0524D869AC71D941837A238D6/scale?width=800&aspectRatio=1.78&format=png",
     type: "movie",
+    company: "2"
   },
   {
     id: 751741,
@@ -54,6 +60,7 @@ export const bigSliderData = [
     imageMobile: "f8ZwvzlCyiumnRP7SSx2ogY0E8x.jpg",
     logo: "https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/97521FBA78A44278F302B8BB780FE32344A86E4B264A38C564CF6833F6953009/scale?width=1440&aspectRatio=3.91&format=png",
     type: "movie",
+    company: "2"
   },
   {
     id: 127635,
@@ -62,6 +69,7 @@ export const bigSliderData = [
     imageMobile: "/ulSptOvjCKc6KEBatu5sIpWxQCT.jpg",
     logo: "https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/95BCF61120C79403F4846204ACE0F0117B471DA7D10217E46C439CBD72601002/scale?width=1440&aspectRatio=3.91&format=png",
     type: "tv",
+    company: "420"
   },
   {
     id: 877269,
@@ -70,6 +78,7 @@ export const bigSliderData = [
     imageMobile: "feyUdsRPjIRcc893fQs66DOD4le.jpg",
     logo: "https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/A56B10311E6BFF14916069C6C81978CDC6E3FAECCB4A9D4576C4A029D8E02D68/scale?width=800&aspectRatio=1.78&format=png",
     type: "movie",
+    company: "2"
   },
   {
     id: 105971,
@@ -78,5 +87,6 @@ export const bigSliderData = [
     imageMobile: "2s3KNHQzl2JJ8lJ7EhgDTKDDyZg.jpg",
     logo: "https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/1953BBD040E3DB6278B8C60126E16A684E69C1760D187A43C2A045FC8B0419F0/scale?width=800&aspectRatio=1.78&format=png",
     type: "tv",
+    company: "1"
   },
 ];

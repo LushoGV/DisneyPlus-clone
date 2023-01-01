@@ -2,12 +2,10 @@ import SectionCard from "../components/SectionCard";
 import Slider from "../components/Slider";
 import sections from "../api/sections";
 import MovieSlider from "../components/MovieSlider";
-import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { IMovie, iSlider } from "../interfaces";
+import { IMovie } from "../interfaces";
 import { bigSliderData } from "../api/bigSliderData";
 import { filterData } from "../utils/Filter";
-import Loader from "../components/Loader";
 
 interface iData {
   title: string;
@@ -16,7 +14,6 @@ interface iData {
 
 const HomePage = () => {
   const [data, setData] = useState<iData[]>();
-  const [loading, setLoading] = useState<boolean>(true);
 
   const getData = async () => {
     setData([
@@ -49,26 +46,20 @@ const HomePage = () => {
         content: filterData({ companyCode: "1" }),
       },
     ]);
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000000);
   };
 
   useEffect(() => {
-    setLoading(true);
     getData();
   }, []);
 
   return (
     <>
       <nav className="lg:hidden">
-        <Link to={"/"}>
           <img
             src="https://static-assets.bamgrid.com/product/disneyplus/images/logo.1a56f51c764022ee769c91d894d44326.svg"
             className="w-24 m-auto pt-4"
             alt=""
           />
-        </Link>
       </nav>
       <Slider content={bigSliderData} />
       <section className="px-4 lg:px-20 mt-6 lg:mt-3 pb-20">
@@ -97,7 +88,6 @@ const HomePage = () => {
             </div>
           ))}
       </section>
-      {/* {loading && <section className="absolute z-50 top-0 left-0 w-full"><Loader type="principal"/></section>} */}
     </>
   );
 };

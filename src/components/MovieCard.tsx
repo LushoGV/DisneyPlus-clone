@@ -9,15 +9,15 @@ interface Props {
   special?: boolean;
   imageMobile?: string;
   imageLG?: string;
-  linkTrailer?: string;
   logo?: string;
   typeLink?: string;
+  company?: string
 }
 
-const MovieCard = ({type,title,special,imageMobile,imageLG,id,linkTrailer,logo,typeLink}: Props) => {
+const MovieCard = ({type,company,title,special,imageMobile,imageLG,id,logo,typeLink,}: Props) => {
   if (type === "slider")
     return (
-      <Link to={`/${typeLink}/${id}`}>
+      <Link to={`/${typeLink}/${id}&${company}`}>
         <div className="relative w-auto md:h-auto md:w-[234px] cursor-pointer lg:w-full xl:w-[95%] flex mr-[5px] lg:mx-[10px] rounded-md hover:scale-105 transition duration-[400ms] shadow-disney transform">
           <div className="absolute z-10 top-0 left-0 w-full h-full rounded-md hover:border-[3px] border-white border-opacity-10 hover:border-opacity-80"></div>
           <div className="bg-gradient-to-tl from-[#1e1f2a] to-[#30323e] rounded-md w-full">
@@ -44,7 +44,7 @@ const MovieCard = ({type,title,special,imageMobile,imageLG,id,linkTrailer,logo,t
 
   if (type === "grid")
     return (
-      <Link to={`/${typeLink}/${id}`}>
+      <Link to={`/${typeLink}/${id}&${company}`}>
         <div className=".load-image relative cursor-pointer flex rounded-md hover:scale-105 transition duration-[400ms] shadow-disney transform bg-gradient-to-tl from-[#1e1f2a] to-[#30323e]">
           <div className="absolute z-10 top-0 left-0 w-full h-full rounded-md hover:border-[3px] border-white border-opacity-10 hover:border-opacity-80"></div>
           <div className="bg-gradient-to-tl from-[#1e1f2a] to-[#30323e] rounded-md w-full animation-opacity transition-all duration-[10ms]">
@@ -69,7 +69,7 @@ const MovieCard = ({type,title,special,imageMobile,imageLG,id,linkTrailer,logo,t
 
   if (type === "bigSlide")
     return (
-      <Link to={`/${typeLink}/${id}`}>
+      <Link to={`/${typeLink}/${id}&${company}`}>
         <div className="md:my-4 px-4 md:p-[10px] rounded-lg relative flex items-center h-60 md:h-auto cursor-pointer">
           <div className="relative w-full bg-gradient-to-tl from-[#1e1f2a] to-[#30323e] rounded-md shadow-disney">
             <div className="absolute z-10 top-0 left-0 w-full h-full rounded-md hover:border-[3px] border-white border-opacity-10 hover:border-opacity-80 transition duration-[200ms] transform"></div>

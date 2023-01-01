@@ -9,33 +9,45 @@ interface Props {
   data: iMoviePage;
   recommended: IMovie[];
   type: string;
-  trailerLink?: string;
+  trailerLink: string | null;
 }
 
 const Tabs = ({ data, recommended, type, trailerLink }: Props) => {
   const [sectionMode, setSectionMode] = useState<number>(1);
+  const director = data.created_by?.length > 0 ? data.created_by[0].name : data.credits.crew.filter(element => element.job === "Director")
 
   const getCertification = () => {
-    const certificationA = [ "G","TV-G","TV-Y"]
-    const certificationB = ["PG", "TV-PG", "TV-Y7"]
-    const certificationC = ["NC-17", "TV-MA", "NR"]
-    const certificationD = ["PG-13", "TV-14"]
+    const certificationA = ["G", "TV-G", "TV-Y"];
+    const certificationB = ["PG", "TV-PG", "TV-Y7"];
+    const certificationC = ["NC-17", "TV-MA", "NR"];
+    const certificationD = ["PG-13", "TV-14"];
 
-    let certification:any = type === "movie" ? data.release_dates.results.find(element => element.iso_3166_1 === 'US') : data.content_ratings.results.find(element => element.iso_3166_1 === 'US') 
-    certification = type === "movie" ? certification.release_dates[0].certification : certification.rating
-    
-    if(certificationA.includes(certification)){
-      return "+0"
-    }else if(certificationB.includes(certification)){
-      return "+7"
-    }else if(certificationC.includes(certification)){
-      return "+17"
-    }else if(certificationD.includes(certification)){
-      return "+13"
-    }else{
-      return "+13"
+    let certification: any =
+      type === "movie"
+        ? data.release_dates.results.find(
+            (element) => element.iso_3166_1 === "US"
+          )
+        : data.content_ratings.results.find(
+            (element) => element.iso_3166_1 === "US"
+          );
+    certification =
+      type === "movie"
+        ? certification.release_dates[0].certification
+        : certification.rating;
+
+    if (certificationA.includes(certification)) {
+      return "+0";
+    } else if (certificationB.includes(certification)) {
+      return "+7";
+    } else if (certificationC.includes(certification)) {
+      return "+17";
+    } else if (certificationD.includes(certification)) {
+      return "+13";
+    } else {
+      return "+13";
     }
-  }
+  };
+
 
   return (
     <section className="lg:mt-[56px] min-h-[200px]">
@@ -83,11 +95,10 @@ const Tabs = ({ data, recommended, type, trailerLink }: Props) => {
         )}
         {sectionMode === 2 && data?.videos.results.length > 0 && (
           <div className="grid lg:grid-cols-5 lg:pb-0">
-            {data && trailerLink && (
+            {trailerLink !== null && (
               <Link to={trailerLink}>
                 <MovieCard
                   type="trailer"
-                  linkTrailer={`https://www.youtube.com/watch?v=${data?.videos.results[0].key}`}
                   imageLG={data?.backdrop_path}
                   title={data?.title || data?.original_name}
                 />
@@ -149,46 +160,44 @@ const Tabs = ({ data, recommended, type, trailerLink }: Props) => {
                 </li>
               </ul>
               <ul className="text-base lg:text-sm">
-                {
-                  data.created_by && data.created_by?.length > 0 && <li className="mb-3 flex flex-col">
-                  <p className="text-[#cacaca]">Director:</p>
-                  <ul className="text-sm py-[1px]">
-                    
+{/* 
+                {data.created_by && data.created_by.length > 0 && (
+                  <li className="mb-3 flex flex-col">
+                    <p className="text-[#cacaca]">Director:</p>
+                    <ul className="py-[1px]">
                       <li>{data.created_by[0].name}</li>
                     </ul>
-                    </li>
-                }
+                  </li>
+                )}
 
                 {
-                   <li className="mb-3 flex flex-col">
-                   <p className="text-[#cacaca]">Director:</p>
-                   <ul className="text-sm py-[1px]">
-                     {
-                      data.credits.crew
+                  <li className="mb-3 flex flex-col">
+                    <p className="text-[#cacaca]">Director:</p>
+                    <ul className="py-[1px]">
+                      {data.credits.crew
                         .filter((element: any) => element.job === "Director")
                         .map((element, index) => (
                           <li key={index}>{element.name}</li>
-                        ))
-                      }
-                      
-                     </ul>
-                     </li>
+                        ))}
+                    </ul>
+                  </li>
+                } */}
+
+                {
+                  director && director.length > 0 &&  
+                  <li className="mb-3 flex flex-col">
+                  <p className="text-[#cacaca]">Director:</p>
+                  <ul className="py-[1px]">
+                    {
+                      Array.isArray(director) ? director.map((element, index) => (
+                        <li key={index}>{element.name}</li>
+                      )) : <li>{director}</li>
+                    }
+                    
+                  </ul>
+                </li>
                 }
 
-               {/* { data.created_by?.length > 0 || data.credits?.crew.length > 0 && <li className="mb-3 flex flex-col">
-                  <p className="text-[#cacaca]">Director:</p>
-                  <ul className="text-sm py-[1px]">
-                    {data.created_by?.length > 0 ? (
-                      <li>{data.created_by[0].name}</li>
-                    ) : (
-                      data.credits.crew
-                        .filter((element: any) => element.job === "Director")
-                        .map((element, index) => (
-                          <li key={index}>{element.name}</li>
-                        ))
-                    )}
-                  </ul>
-                </li>} */}
                 <li className="mb-3">
                   <p className="text-[#cacaca]">Starring:</p>
                   {data?.credits.cast.slice(0, 5).map((element, index) => {

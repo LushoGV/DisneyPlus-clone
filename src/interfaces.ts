@@ -83,6 +83,7 @@ export interface iMoviePage {
   first_air_date: Date;
   seasons: Season[];
   created_by: any[];
+  company: string
 }
 
 export interface ContentRatings {

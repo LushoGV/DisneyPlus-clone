@@ -74,6 +74,7 @@ const MovieSlider = ({ title, movies, id, special }: Props) => {
                     imageLG={element.backdrop_path}
                     id={element.id}
                     typeLink={element.first_air_date ? "tv" : "movie"}
+                    company={element.company}
                   />
                 </SwiperSlide>
               </div>

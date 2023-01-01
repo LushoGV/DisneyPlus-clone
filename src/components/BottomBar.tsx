@@ -45,8 +45,8 @@ const BottomBar = () => {
           to={"/profile"}
           className={({ isActive }) =>
             isActive
-              ? "absolute border-[2px] border-white top-0 rounded-full"
-              : "border-[2px] border-gray-500 absolute top-0 rounded-full"
+              ? "absolute border-[1px] border-white top-0 rounded-full"
+              : "border-[1px] border-gray-500 absolute top-0 rounded-full"
           }
         >
           <img src={userState.profile.image} className="w-8 h-8 rounded-full"></img>

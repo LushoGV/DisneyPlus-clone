@@ -7,7 +7,7 @@ import axios from "axios";
 
 const Trailer = () => {
   const [videoData, setVideoData] = useState<iMoviePage>();
-  const { id, trailer, type } = useParams();
+  const { id, trailer, type, company } = useParams();
 
   const getData = async () => {
     const { data } = await axios.get(`
@@ -27,7 +27,7 @@ const Trailer = () => {
       <header className="h-[72px] w-full bg-black z-50 fixed top-0 flex items-center px-5">
         <nav className="w-full flex">
           <Link
-            to={`/${type === "1" ? "movie" : "tv"}/${id}`}
+            to={`/${type === "1" ? "movie" : "tv"}/${id}&${company}`}
             className="mr-5 lg:mr-auto ml-0"
           >
             <IoArrowBackSharp
