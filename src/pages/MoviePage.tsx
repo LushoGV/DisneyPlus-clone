@@ -22,6 +22,7 @@ const MoviePage = () => {
   const [data, setData] = useState<iMoviePage>();
   const [loading, setLoading] = useState<boolean>(true);
   const [recommended, setRecommended] = useState<IMovie[]>();
+  const [backgroundOpacity, setBackgroundOpacity] = useState(1)
   const userState: iUserState = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const { id, type, company } = useParams();
@@ -80,14 +81,31 @@ const MoviePage = () => {
     setCart(userState.cart);
   }, [id]);
 
+  const changeBackground = () => {
+    if(window.scrollY === 0){
+      setBackgroundOpacity(1)
+    }else{
+      if(window.scrollY <= 50) setBackgroundOpacity(0.8)
+
+      if(window.scrollY > 50 && window.scrollY <= 100 ) setBackgroundOpacity(0.6)
+
+      if(window.scrollY > 100 && window.scrollY <= 150) setBackgroundOpacity(0.4)
+
+      if(window.scrollY > 150) setBackgroundOpacity(0.20)
+    }
+  }
+
+  window.addEventListener('scroll', changeBackground)
+
   if (loading) return <Loader type="moviePage" />;
 
   return (
     <>
       <div className="min-h-screen lg:min-h-0 w-full relative pb-12">
-        <div className="w-full h-full top-0 left-0 absolute">
+        <div className={`w-full h-full top-0 left-0 absolute`}>
           <div
             className={`top-0 left-0 w-full bg-[#1a1d29] h-full lg:fixed z-[0] transition-all duration-300 transform`}
+            style={{opacity: `${backgroundOpacity}`}}
           >
             <div className="relative animation-opacity transition-all duration-[10ms]">
               <img
@@ -150,7 +168,7 @@ const MoviePage = () => {
 
           <div className="max-w-[874px] animation-opacity transition-all duration-[10ms]">
             <div className="flex items-center justify-center lg:justify-start flex-wrap lg:flex-row mt-4 lg:my-6">
-              <button className="flex items-center uppercase py-[10px] lg:py-[14px] px-8 bg-white hover:bg-opacity-75 text-black transition-all duration-[400ms] transform rounded-[5px] text-lg w-full lg:w-auto justify-center mb-4 lg:mb-0">
+              <button className="flex items-center uppercase py-[10px] lg:py-[14px] px-8 bg-white hover:bg-opacity-75 text-black transition-all duration-[400ms] transform rounded-[5px] text-lg w-full lg:w-auto justify-center mb-4 lg:mb-0 mr-0 lg:mr-4">
                 <FaPlay className="mr-4 text-base" />
                 play
               </button>
@@ -159,7 +177,7 @@ const MoviePage = () => {
                   to={`/trailer/${id}/${data?.videos.results[0].key}/${
                     type === "movie" ? "1" : "2"
                   }&${company}`}
-                  className="hidden lg:flex items-center uppercase py-[14px] px-8 bg-black text-white border-[1px] hover:bg-white hover:text-black transition-all duration-[400ms] transform border-white rounded-[5px] text-lg mx-5"
+                  className="hidden lg:flex items-center uppercase py-[14px] px-8 bg-black text-white border-[1px] hover:bg-white hover:text-black transition-all duration-[400ms] transform border-white rounded-[5px] text-lg mr-4"
                 >
                   trailer
                 </Link>

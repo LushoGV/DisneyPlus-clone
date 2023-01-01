@@ -112,7 +112,7 @@ const Navbar = () => {
             </span>
             <img
               src={userState.profile.image}
-              className="w-12 h-12 rounded-full bg-white cursor-pointer"
+              className="w-12 h-12 rounded-full cursor-pointer"
             ></img>
           </header>
           <div className="profile-active shadow-md">

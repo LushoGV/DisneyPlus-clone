@@ -12,12 +12,29 @@ interface iData {
 
 const CompaniesPage = () => {
   const [ChangeBackground, setChangeBackground] = useState(false);
+  const [backgroundOpacity, setBackgroundOpacity] = useState(1)
   const [background, setBackground] = useState({
     image: "",
     video: "",
   });
   const { company } = useParams();
   const [data, setData] = useState<iData[]>();
+
+  const changeBackground = () => {
+    if(window.scrollY === 0){
+      setBackgroundOpacity(1)
+    }else{
+      if(window.scrollY <= 50) setBackgroundOpacity(0.8)
+
+      if(window.scrollY > 50 && window.scrollY <= 100 ) setBackgroundOpacity(0.6)
+
+      if(window.scrollY > 100 && window.scrollY <= 150) setBackgroundOpacity(0.4)
+
+      if(window.scrollY > 150) setBackgroundOpacity(0.20)
+    }
+  }
+
+  window.addEventListener('scroll', changeBackground)
 
   const getData = async (companyCode: string) => {
     setData([
@@ -90,7 +107,8 @@ const CompaniesPage = () => {
       <div className="min-h-screen lg:min-h-0 w-full relative">
         <div className="w-full h-full absolute top-0 left-0 ">
           <div
-            className={`top-0 left-0 w-full bg-[#1a1d29] h-full fixed z-[0]`}
+            className={`top-0 left-0 w-full bg-[#1a1d29] h-full fixed z-[0] transition-all duration-300 transform`}
+            style={{opacity: `${backgroundOpacity}`}}
           >
             <video
               autoPlay
