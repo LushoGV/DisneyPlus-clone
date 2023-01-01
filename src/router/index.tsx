@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouteObject } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouteObject } from "react-router-dom";
 import Profile from "../pages/profile/Profile";
 import Layout from "../layout/Layout";
 import ProfileLayout from "../layout/ProfileLayout";
@@ -16,6 +16,7 @@ import AuthForm from "../pages/auth/AuthForm";
 import AuthGuard from "../guards/AuthGuard";
 import Trailer from "../components/Trailer";
 import { AuthHomePage } from "../pages/auth/AuthHomePage";
+import { MoviesGuard } from "../guards/MoviesGuard";
 
 const router = createBrowserRouter([
   {
@@ -23,23 +24,25 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <AuthHomePage/>,
+        element: <AuthHomePage />,
       },
       {
         element: <AuthLayout />,
-        children: [    
+        children: [
           {
             path: "/auth/:section",
             element: <AuthForm />,
           },
         ],
-      }
-    ]
+      },
+    ],
   },
   {
     path: "/",
     element: <AuthGuard />,
-    children: [{
+    errorElement: <Navigate to={"/"} />,
+    children: [
+      {
         element: <Layout />,
         children: [
           {
@@ -68,11 +71,23 @@ const router = createBrowserRouter([
           },
           {
             path: "/brand/:company",
-            element: <CompaniesPage />,
+            element: <MoviesGuard type={"companies"}/>,
+            children: [
+              {
+                index: true,
+                element: <CompaniesPage />,
+              },
+            ],
           },
           {
             path: "/:type/:id&:company",
-            element: <MoviePage />,
+            element: <MoviesGuard type={"movie"}/>,
+            children: [
+              {
+                index: true,
+                element: <MoviePage />,
+              },
+            ],
           },
         ],
       },

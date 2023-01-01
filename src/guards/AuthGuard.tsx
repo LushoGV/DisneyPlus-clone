@@ -8,7 +8,7 @@ import { addInitialData } from "../features/user/userSlice";
 import { getUser } from "../utils/FirebaseFunctions";
 
 const AuthGuard = () => {
-  const [isAuth, setIsAuth] = useState<number>(0);
+  const [userAuth, setUserAuth] = useState<string>();
   const dispatch = useDispatch();
 
   const saveUser = async (id: string) => {
@@ -24,20 +24,20 @@ const AuthGuard = () => {
           },
         })
       );
-    setIsAuth(2);
+    setUserAuth("authorized");
   };
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
       saveUser(user.uid);
     } else {
-      setIsAuth(1);
+      setUserAuth("unauthorized");
     }
   });
 
-  if (isAuth === 1) return <Navigate to={"/auth"} />;
+  if (userAuth === "unauthorized") return <Navigate to={"/auth"} />;
 
-  if (isAuth === 2) return <Outlet />;
+  if (userAuth === "authorized") return <Outlet />;
 
   return <Loader type="principal" />;
 };

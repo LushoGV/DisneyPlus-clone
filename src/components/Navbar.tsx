@@ -34,14 +34,19 @@ const Navbar = () => {
           changeBackground ? "bg-[#0e0b14]" : "bg-transparent"
         } after:inset-0 after:h-[170px] after:top-0 after:left-0 after:right-0 after:absolute after:z-[-1] after:bg-nav after:pointer-events-none transition-all duration-[400ms] transform`}
       >
-        <ul className="flex items-center m-auto ml-0 uppercase font-bold pl-9 relative">
+        <ul className="flex items-center m-auto mt-1 ml-0 pl-9 relative">
           <li className="pr-9">
             <Link to={"/"}>
-              <img
-                src="https://static-assets.bamgrid.com/product/disneyplus/images/logo.1a56f51c764022ee769c91d894d44326.svg"
-                className="w-[79px] h-[48px] text-base"
-                alt=""
-              />
+              <div className="relative">
+                <img
+                  src="https://static-assets.bamgrid.com/product/disneyplus/images/logo.1a56f51c764022ee769c91d894d44326.svg"
+                  className="w-[79px] h-[48px]"
+                  alt=""
+                />
+                <span className="absolute top-[36px] left-6 text-[11px] font-disney">
+                  Clone
+                </span>
+              </div>
             </Link>
           </li>
           <li className="link">

@@ -6,11 +6,16 @@ const Footer = ({activeMobile}:Props) => {
   return (
     <footer className={`${activeMobile ? "bg-[#040814]" : "hidden lg:block bg-[#0e0b14]"} text-[#c0c0c0] w-full py-5 text-xs z-10 relative`}>
       <section className="flex flex-col items-center justify-center m-auto text-center px-4 md:px-0 ">
-        <img
-          src="https://static-assets.bamgrid.com/product/disneyplus/images/logo.1a56f51c764022ee769c91d894d44326.svg"
-          alt=""
-          className="w-20 mb-2"
-        />
+        <div className="relative mb-2">
+                <img
+                  src="https://static-assets.bamgrid.com/product/disneyplus/images/logo.1a56f51c764022ee769c91d894d44326.svg"
+                  className="w-20"
+                  alt=""
+                />
+                <span className="absolute top-[36px] left-6 text-[11px] text-white font-disney">
+                  Clone
+                </span>
+              </div>
         <ul className="flex flex-wrap justify-center max-w-md">
           <li className="mx-3 py-2">Privacy Policy</li>
           <li className="mx-3 py-2">subscription agreement</li>

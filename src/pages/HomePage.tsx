@@ -54,12 +54,17 @@ const HomePage = () => {
 
   return (
     <>
-      <nav className="lg:hidden">
-          <img
-            src="https://static-assets.bamgrid.com/product/disneyplus/images/logo.1a56f51c764022ee769c91d894d44326.svg"
-            className="w-24 m-auto pt-4"
-            alt=""
-          />
+      <nav className="lg:hidden flex pt-1">
+           <div className="relative pt-1 mx-auto">
+                <img
+                  src="https://static-assets.bamgrid.com/product/disneyplus/images/logo.1a56f51c764022ee769c91d894d44326.svg"
+                  className="w-24 pb-[1px]"
+                  alt=""
+                />
+                <span className="absolute bottom-0 left-8 text-xs font-disney">
+                  Clone
+                </span>
+              </div>
       </nav>
       <Slider content={bigSliderData} />
       <section className="px-4 lg:px-20 mt-6 lg:mt-3 pb-20">

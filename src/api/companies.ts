@@ -41,4 +41,8 @@ const companies = [
   },
 ];
 
+export const companiesCodes = companies.map(element =>  element.code)
+
+export const companiesNames = companies.map(element =>  element.name)
+
 export default companies;

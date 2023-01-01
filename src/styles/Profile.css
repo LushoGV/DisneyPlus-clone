@@ -56,6 +56,12 @@
 
 /*----------------------------------------Navbar----------------------------------------*/
 
+.link {
+    margin-top: 4px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
 .link a span{
     position: relative;
 }

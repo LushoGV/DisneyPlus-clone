@@ -4,7 +4,7 @@ import { RiAddLine, RiFilmFill } from "react-icons/ri";
 import { HiUserGroup } from "react-icons/hi";
 import { MdDownload } from "react-icons/md";
 import { BsCheck2 } from "react-icons/bs";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link, useNavigate, Navigate } from "react-router-dom";
 import { IMovie, iMoviePage } from "../interfaces";
 import { toHoursAndMinutes } from "../utils/dateParse";
 import { useSelector, useDispatch } from "react-redux";
