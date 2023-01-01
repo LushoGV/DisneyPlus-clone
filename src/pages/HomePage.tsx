@@ -49,6 +49,7 @@ const HomePage = () => {
   };
 
   useEffect(() => {
+    document.title = "Disney+ Clone | Movies and Shows"
     getData();
   }, []);
 

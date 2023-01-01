@@ -31,6 +31,7 @@ const CategoryPage = () => {
   ];
 
   useEffect(() => {
+    document.title = `All ${pathname.substring(1) === "movies" ? "Movies" : "Series and TV Shows"} | Disney+ Clone`
     setLoading(true);
     setData([]);
     setData(filterData({ type: pathname.substring(1), filter: "featured" }));

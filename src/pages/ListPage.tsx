@@ -21,6 +21,7 @@ const ListPage = () => {
   };
 
   useEffect(() => {
+    document.title = "Watchlist | Disney+ Clone"
     setList([]);
     loadData();
   }, [userState.cart]);

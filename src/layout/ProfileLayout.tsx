@@ -23,6 +23,7 @@ const ProfileLayout = () => {
   };
 
   useEffect(() => {
+    document.title = "Edit Profile | Disney+ Clone"
     setNewUserData(userState);
   }, []);
 

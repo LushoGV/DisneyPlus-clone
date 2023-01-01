@@ -1,7 +1,13 @@
 import { Link } from "react-router-dom";
+import {useEffect} from 'react'
 import Footer from "../../components/Footer";
 
 export const AuthHomePage = () => {
+
+  useEffect(()=>{
+    document.title = "Disney+ Clone | The Best Stories in One Place"
+  },[])
+
   return (
     <>
       <div className="flex flex-col items-stretch bg-[#040814] pb-10 overflow-x-hidden">

@@ -40,6 +40,7 @@ const SearchPage = () => {
   };
 
   useEffect(() => {
+    document.title = "Search Movies and Shows | Disney+ Clone"
     setData(movies.slice(0, 32));
     setDefaultData(movies.slice(0, 32));
   }, []);

@@ -38,6 +38,7 @@ const OriginalsPage = () => {
   });
 
   useEffect(() => {
+    document.title = "Originals | Disney+ Clone"
     getData();
   }, []);
 

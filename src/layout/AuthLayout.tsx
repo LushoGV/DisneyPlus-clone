@@ -1,12 +1,19 @@
+import { useEffect } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import Footer from "../components/Footer";
 
 const AuthLayout = () => {
   const { pathname } = useLocation();
 
+  useEffect(()=>{
+    console.log(pathname)
+    document.title = `${pathname === "/auth/login" ? "Login" : "Sign up"} | Disney+ Clone`
+  },[pathname])
+
   return (
     <>
       <nav className="w-full flex justify-between items-center bg-[#1a1d29] border-b-[1px] px-4 lg:px-10 pt-2 pb-3 border-[#f9f9f94d]">
+       <Link to={"/auth"}>
         <div className="relative">
           <img
             src="https://static-assets.bamgrid.com/product/disneyplus/images/logo.1a56f51c764022ee769c91d894d44326.svg"
@@ -17,6 +24,7 @@ const AuthLayout = () => {
             Clone
           </span>
         </div>
+        </Link>
         {!pathname.includes("login") && (
           <Link to={"/auth/login"} className="font-semibold cursor-pointer mt-1">
             Log In

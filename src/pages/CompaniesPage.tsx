@@ -62,6 +62,9 @@ const CompaniesPage = () => {
   };
 
   useEffect(() => {
+
+    let companyTitle = company
+
     if (company) {
       const companyData = companies.filter((element) =>
         element.name.includes(company)
@@ -78,28 +81,35 @@ const CompaniesPage = () => {
       switch (company) {
         case "disney":
           setTimeout(() => setChangeBackground(true), 10000);
+          companyTitle = "Disney"
           break;
 
         case "pixar":
           setTimeout(() => setChangeBackground(true), 13000);
+          companyTitle = "Pixar"
           break;
 
         case "marvel":
           setTimeout(() => setChangeBackground(true), 9000);
+          companyTitle = "Marvel"
           break;
 
         case "starwars":
           setTimeout(() => setChangeBackground(true), 8000);
+          companyTitle = "Star Wars"
           break;
 
         case "national-geographic":
           setTimeout(() => setChangeBackground(true), 9000);
+          companyTitle = "National Geographic"
           break;
 
         default:
           break;
       }
     }
+
+    document.title = `${companyTitle} Movies and Shows | Disney+`
   }, []);
 
   return (
