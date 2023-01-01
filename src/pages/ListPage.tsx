@@ -76,6 +76,7 @@ const ListPage = () => {
                 typeLink={element.first_air_date ? "tv" : "movie"}
                 imageLG={element.backdrop_path}
                 imageMobile={element.poster_path}
+                company={element.company}
               />
             </div>
           ))}
