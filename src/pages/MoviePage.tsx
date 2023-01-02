@@ -194,7 +194,7 @@ const MoviePage = () => {
                   )}
                 </button>
               )}
-              <button className="flex flex-col items-center mx-3 lg:block lg:w-11 lg:h-11 lg:border-[2px] lg:border-white lg:bg-black lg:text-white lg:rounded-full lg:mx-4 hover:bg-white hover:text-black transition-all duration-[400ms] transform">
+              <button className="flex flex-col items-center mx-3 lg:block lg:w-11 lg:h-11 lg:border-[2px] lg:border-white lg:bg-black lg:text-white lg:rounded-full lg:mx-4 hover:lg:bg-white hover:lg:text-black transition-all duration-[400ms] transform">
                 <HiUserGroup className="text-[1.6rem] lg:text-3xl rounded-full lg:m-auto lg:pt-1" />
                 <p className="text-[11px] lg:text-[11px] mt-1 text-[#888888] lg:hidden">
                   GroupWatch

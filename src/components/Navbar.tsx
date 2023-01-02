@@ -124,13 +124,13 @@ const Navbar = () => {
             <header className="flex items-center mt-[85px] border-t-[1px] border-[#97979757] pr-4 w-full">
               <ul className="mt-6">
                 <li className="my-[18px] text-[#b9b9b9] font-medium hover:text-white cursor-pointer">
-                  <Link to={"/profile"}>edit Profile</Link>
+                  <Link to={"/profile"}>Edit Profile</Link>
                 </li>
                 <li
                   className="my-[18px] text-[#cacaca] font-medium hover:text-white cursor-pointer"
                   onClick={logOut}
                 >
-                  Sign off
+                  Log Out
                 </li>
               </ul>
             </header>
