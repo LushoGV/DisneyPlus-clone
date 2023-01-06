@@ -12,9 +12,9 @@
 * Vite
 
 ---
-![](./src/images/HomeImage.png)
+![](./src/media/images/HomeImage.png)
 
-![](./src/images/sectionImage.png)
+![](./src/media/images/sectionImage.png)
 
 ---
 
