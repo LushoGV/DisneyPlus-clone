@@ -1,6 +1,6 @@
 import ReactPlayer from "react-player/youtube";
 import { IoArrowBackSharp } from "react-icons/io5";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { iMoviePage } from "../interfaces";
 import axios from "axios";
@@ -8,6 +8,7 @@ import axios from "axios";
 const Trailer = () => {
   const [videoData, setVideoData] = useState<iMoviePage>();
   const { id, trailer, type, company } = useParams();
+  const navigate = useNavigate()
 
   const getData = async () => {
     const { data } = await axios.get(`
@@ -26,15 +27,15 @@ const Trailer = () => {
     <>
       <header className="h-[72px] w-full bg-black z-50 fixed top-0 flex items-center px-5">
         <nav className="w-full flex">
-          <Link
-            to={`/${type === "1" ? "movie" : "tv"}/${id}&${company}`}
+          <button
+            onClick={() => navigate(`/${type === "1" ? "movie" : "tv"}/${id}&${company}`)}
             className="mr-5 lg:mr-auto ml-0"
           >
             <IoArrowBackSharp
               className="text-3xl cursor-pointer text-gray-300 hover:text-white"
               onClick={close}
             />
-          </Link>
+          </button>
           <h2 className="m-auto ml-0 text-sm max-h-5 lg:max-h-screen overflow-hidden lg:text-2xl">
             {videoData?.title || videoData?.original_name}
           </h2>
